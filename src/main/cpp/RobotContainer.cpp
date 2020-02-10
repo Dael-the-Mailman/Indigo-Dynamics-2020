@@ -1,0 +1,58 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+#include "RobotContainer.h"
+#include "commands/RunFlywheel.h"
+#include "commands/RunIntake.h"
+#include "commands/BButton.h"
+#include "commands/RunDrive.h"
+#include "commands/ReverseIntake.h"
+#include "commands/DriveForward.h"
+#include "commands/WinchUp.h"
+#include "commands/WinchManual.h"
+#include "commands/VisionAlign.h"
+#include "commands/RunPizza.h"
+RobotContainer::RobotContainer()
+{
+  // Initialize all of your commands and subsystems here
+
+  // Configure the button bindings
+  ConfigureButtonBindings();
+  // m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel));
+  m_drive.SetDefaultCommand(RunDrive(&m_drive,
+                                     [this] { return -m_joy.GetRawAxis(1); },
+                                     [this] { return m_joy.GetRawAxis(4); }));
+  m_winch.SetDefaultCommand(WinchManual(&m_winch, 
+                                     [this] { return m_joy.GetRawAxis(3); }));
+  m_flywheel.SetDefaultCommand(RunFlywheel(0.8, &m_flywheel, 
+                                     [this] { return m_joy.GetRawButton(5); }));
+}
+
+void RobotContainer::ConfigureButtonBindings()
+{
+  // Configure your button bindings here
+  frc2::JoystickButton m_pizzaButton{&m_joy, 1};
+  frc2::JoystickButton m_bButton{&m_joy, 2};
+  frc2::JoystickButton m_winchUp{&m_joy, 3};
+  frc2::JoystickButton m_yButton{&m_joy, 4};
+  // frc2::JoystickButton m_leftShoulder{&m_joy, 5};
+  frc2::JoystickButton m_rightShoulder{&m_joy, 6};
+  frc2::JoystickButton m_visionAlign{&m_joy, 7};
+  m_pizzaButton.WhileHeld(RunPizza(&m_pizzatime));
+  m_bButton.WhileHeld(BButton(&m_intake, &m_flywheel));
+  m_yButton.WhileHeld(ReverseIntake(&m_intake));
+  // m_leftShoulder.WhileHeld(RunFlywheel(0.8, &m_flywheel));
+  m_rightShoulder.WhileHeld(RunIntake(&m_intake));
+  m_visionAlign.WhileHeld(VisionAlign(&m_limelight, &m_drive));
+  m_winchUp.WhenPressed(WinchUp(&m_winch));
+}
+
+frc2::Command *RobotContainer::GetAutonomousCommand()
+{
+  // An example command will be run in autonomous
+  return &m_autonomousCommand;
+}
