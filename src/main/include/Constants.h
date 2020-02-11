@@ -22,8 +22,8 @@ namespace FlywheelConstants
 {
     constexpr int flywheelport = 3;
     constexpr double kF = 0.000054;
-    constexpr double kP = 0.0;  // 0.0008
-    constexpr double kI = 0.0; // 0.00001
+    constexpr double kP = 0.0005;  // 0.0008
+    constexpr double kI = 0.00001; // 0.00001
     constexpr double kD = 0.0; // 3.6
     constexpr double peakVelocity = 17000.0;
     constexpr double kTimeoutMs = 10.0;
