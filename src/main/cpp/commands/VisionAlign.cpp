@@ -16,7 +16,7 @@ VisionAlign::VisionAlign(Limelight* limelight,  Drive* drive)
 
 // Called when the command is initially scheduled.
 void VisionAlign::Initialize(){
-
+  m_limelight->SetPipeline(0);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -41,7 +41,7 @@ void VisionAlign::Execute() {
 
 // Called once the command ends or is interrupted.
 void VisionAlign::End(bool interrupted) {
-
+  m_limelight->SetPipeline(2);
 }
 
 // Returns true when the command should end.

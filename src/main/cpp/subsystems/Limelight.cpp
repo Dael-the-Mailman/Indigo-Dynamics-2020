@@ -10,8 +10,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 
-Limelight::Limelight() {
-}
+Limelight::Limelight() {}
 
 // This method will be called once per scheduler run
 void Limelight::Periodic() {
@@ -20,7 +19,9 @@ void Limelight::Periodic() {
     ty = table->GetNumber("ty", 0.0);
     ta = table->GetNumber("ta", 0.0);
     tv = table->GetNumber("tv", 0.0);
+    pipe = table->GetNumber("getpipe", 0.0);
     frc::SmartDashboard::PutNumber("TX", tx);
+    frc::SmartDashboard::PutNumber("Pipeline", pipe);
     // printf("tx: %.2f\nty: %.2f\nta: %.2f\ntv: %.2f\n", tx, ty, ta, tv);
 }
 
@@ -48,4 +49,9 @@ void Limelight::LEDOff(){
 void Limelight::LEDOn(){
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     table->PutNumber("ledMode", 3);
+}
+
+void Limelight::SetPipeline(int pipeline){
+    std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    table->PutNumber("pipeline", pipeline);
 }

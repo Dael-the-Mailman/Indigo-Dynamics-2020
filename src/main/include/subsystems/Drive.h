@@ -22,19 +22,19 @@ public:
    */
   void Periodic();
 
-  void Arcade(double xSpeed, double zRotation);
+  void Arcade(double xSpeed, double zRotation); // Curvature Drive
 
-  double SquareInput(double input);
+  double SquareInput(double input); // Squares the input and keeps the sign
 
-  double ThresholdHandler(double input, double threshold);
+  double ThresholdHandler(double input, double threshold); // Handles threshold values
 
-  void DriveDistance(double inches);
+  void DriveDistance(double inches); // Drive a certain distance
 
-  bool IsMagicFinished();
+  bool IsMagicFinished(); // If the motion magic has finished
 
-  void ResetSensors();
+  void ResetSensors(); // Resets the sensor values
 
-  void DriveArcade(double forward, double rotate);
+  void DriveArcade(double forward, double rotate); // Actual arcade drive
 
 private:
   // Components (e.g. motor controllers and sensors) should generally be

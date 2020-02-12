@@ -16,6 +16,7 @@
 #include "commands/WinchManual.h"
 #include "commands/VisionAlign.h"
 #include "commands/RunPizza.h"
+#include "commands/CloseShot.h"
 RobotContainer::RobotContainer()
 {
   // Initialize all of your commands and subsystems here
@@ -42,6 +43,7 @@ void RobotContainer::ConfigureButtonBindings()
   // frc2::JoystickButton m_leftShoulder{&m_joy, 5};
   frc2::JoystickButton m_rightShoulder{&m_joy, 6};
   frc2::JoystickButton m_visionAlign{&m_joy, 7};
+  frc2::JoystickButton m_closeShot{&m_joy, 8};
   m_pizzaButton.WhileHeld(RunPizza(&m_pizzatime));
   m_bButton.WhileHeld(BButton(&m_intake, &m_flywheel));
   m_yButton.WhileHeld(ReverseIntake(&m_intake));
@@ -49,6 +51,7 @@ void RobotContainer::ConfigureButtonBindings()
   m_rightShoulder.WhileHeld(RunIntake(&m_intake));
   m_visionAlign.WhileHeld(VisionAlign(&m_limelight, &m_drive));
   m_winchUp.WhenPressed(WinchUp(&m_winch));
+  m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive));
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()
