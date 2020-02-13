@@ -7,18 +7,15 @@
 
 #include "commands/RunFlywheel.h"
 
-RunFlywheel::RunFlywheel(double targetPercentage, Flywheel *flywheel, std::function<bool()> button)
-    : m_flywheel{flywheel}, percentage{targetPercentage}, shoot{button}
+RunFlywheel::RunFlywheel(Flywheel *flywheel, std::function<bool()> button)
+    : m_flywheel{flywheel}, shoot{button}
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({m_flywheel});
 }
 
 // Called when the command is initially scheduled.
-void RunFlywheel::Initialize(){
-  m_flywheel->Stop();
-  m_flywheel->SetTarget(0.0);
-}
+void RunFlywheel::Initialize(){}
 
 // Called repeatedly when this Command is scheduled to run
 void RunFlywheel::Execute()
@@ -29,11 +26,10 @@ void RunFlywheel::Execute()
   //   m_flywheel->Stop();
   // }
   if(shoot()){
-    m_flywheel->SetTarget(percentage);
+    m_flywheel->SetTarget(0.8);
     m_flywheel->Start();
   } else {
     m_flywheel->Stop();
-    m_flywheel->SetTarget(0.0);
   }
 }
 

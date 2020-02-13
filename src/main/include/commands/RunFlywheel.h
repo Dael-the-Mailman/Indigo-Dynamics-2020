@@ -22,7 +22,7 @@ class RunFlywheel
     : public frc2::CommandHelper<frc2::CommandBase, RunFlywheel>
 {
 public:
-  RunFlywheel(double targetPercentage, Flywheel *flywheel, std::function<bool()> button);
+  RunFlywheel(Flywheel *flywheel, std::function<bool()> button);
 
   void Initialize() override;
 
@@ -34,6 +34,5 @@ public:
 
 private:
   Flywheel *m_flywheel;
-  double percentage{};
   std::function<bool()> shoot;
 };

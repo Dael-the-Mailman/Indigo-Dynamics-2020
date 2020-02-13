@@ -20,10 +20,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class CloseShot
-    : public frc2::CommandHelper<frc2::CommandBase, CloseShot> {
+class MediumShot
+    : public frc2::CommandHelper<frc2::CommandBase, MediumShot> {
  public:
-   CloseShot(Limelight *limelight, Drive *drive, Flywheel *flywheel);
+   MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel);
 
    void Initialize() override;
 
@@ -32,18 +32,17 @@ class CloseShot
    void End(bool interrupted) override;
 
    bool IsFinished() override;
-
  private:
-  Limelight* _limelight;
-  Drive* _drive;
-  Flywheel* m_flywheel;
-  const double fwdKp{0.4};
-  const double fwdKi{};
-  const double fwdKd{};
-  const double turnKp{-0.015};
-  const double turnKi{-0.001};
-  const double turnKd{-0.15};
-  const double targetArea{2.20};
-  double currFwdError{}, prevFwdError{}, fwdIntegral{}, fwdDerive{}, fwdOutput{};
-  double currTurnError{}, prevTurnError{}, turnIntegral{}, turnDerive{}, turnOutput{};
+   Limelight *_limelight;
+   Drive *_drive;
+   Flywheel *_flywheel;
+   const double fwdKp{1.6};
+   const double fwdKi{};
+   const double fwdKd{};
+   const double turnKp{-0.015};
+   const double turnKi{-0.001};
+   const double turnKd{-0.15};
+   const double targetArea{0.7};
+   double currFwdError{}, prevFwdError{}, fwdIntegral{}, fwdDerive{}, fwdOutput{};
+   double currTurnError{}, prevTurnError{}, turnIntegral{}, turnDerive{}, turnOutput{};
 };

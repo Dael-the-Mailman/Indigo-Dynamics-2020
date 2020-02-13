@@ -21,6 +21,7 @@ void Limelight::Periodic() {
     tv = table->GetNumber("tv", 0.0);
     pipe = table->GetNumber("getpipe", 0.0);
     frc::SmartDashboard::PutNumber("TX", tx);
+    frc::SmartDashboard::PutNumber("TA", ta);
     frc::SmartDashboard::PutNumber("Pipeline", pipe);
     // printf("tx: %.2f\nty: %.2f\nta: %.2f\ntv: %.2f\n", tx, ty, ta, tv);
 }

@@ -43,4 +43,5 @@ private:
   TalonFX *_frontleft = new TalonFX(frontleftport);
   TalonFX *_backright = new TalonFX(backrightport);
   TalonFX *_backleft = new TalonFX(backleftport);
+  const double turnMultiplier = 0.6;
 };

@@ -53,7 +53,7 @@ void Drive::Periodic() {}
 
 void Drive::Arcade(double xSpeed, double zRotation)
 {
-    xSpeed = SquareInput(xSpeed);
+    xSpeed = SquareInput(xSpeed) * turnMultiplier;
     zRotation = SquareInput(zRotation);
     double angularPower;
     double m_quickStopAccumulator{};

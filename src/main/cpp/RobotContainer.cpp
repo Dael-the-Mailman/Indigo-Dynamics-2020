@@ -17,6 +17,7 @@
 #include "commands/VisionAlign.h"
 #include "commands/RunPizza.h"
 #include "commands/CloseShot.h"
+#include "commands/MediumShot.h"
 RobotContainer::RobotContainer()
 {
   // Initialize all of your commands and subsystems here
@@ -29,8 +30,11 @@ RobotContainer::RobotContainer()
                                      [this] { return m_joy.GetRawAxis(4); }));
   m_winch.SetDefaultCommand(WinchManual(&m_winch, 
                                      [this] { return m_joy.GetRawAxis(3); }));
-  m_flywheel.SetDefaultCommand(RunFlywheel(0.8, &m_flywheel, 
+  m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel, 
                                      [this] { return m_joy.GetRawButton(5); }));
+
+  //Close shot 52%
+  //Medium shot 54%
 }
 
 void RobotContainer::ConfigureButtonBindings()
@@ -44,14 +48,16 @@ void RobotContainer::ConfigureButtonBindings()
   frc2::JoystickButton m_rightShoulder{&m_joy, 6};
   frc2::JoystickButton m_visionAlign{&m_joy, 7};
   frc2::JoystickButton m_closeShot{&m_joy, 8};
+  frc2::JoystickButton m_mediumShot{&m_joy, 10};
   m_pizzaButton.WhileHeld(RunPizza(&m_pizzatime));
   m_bButton.WhileHeld(BButton(&m_intake, &m_flywheel));
   m_yButton.WhileHeld(ReverseIntake(&m_intake));
   // m_leftShoulder.WhileHeld(RunFlywheel(0.8, &m_flywheel));
   m_rightShoulder.WhileHeld(RunIntake(&m_intake));
-  m_visionAlign.WhileHeld(VisionAlign(&m_limelight, &m_drive));
+  m_visionAlign.WhileHeld(VisionAlign(&m_limelight, &m_drive, &m_flywheel));
   m_winchUp.WhenPressed(WinchUp(&m_winch));
-  m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive));
+  m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive, &m_flywheel));
+  m_mediumShot.WhileHeld(MediumShot(&m_limelight, &m_drive, &m_flywheel));
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()

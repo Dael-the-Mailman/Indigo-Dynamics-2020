@@ -39,7 +39,7 @@ void Flywheel::Start()
     // _flywheel->Set(ControlMode::Velocity, peakVelocity * percentage);
     currVelo = _flywheel->GetSelectedSensorVelocity();
     error = setpoint - currVelo;
-    if(abs(error) < 100){
+    if(abs(error) < 120){
         integral += error;
     } else {
         integral = 0;

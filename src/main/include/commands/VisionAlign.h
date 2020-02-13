@@ -11,6 +11,7 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/Limelight.h"
 #include "subsystems/Drive.h"
+#include "subsystems/Flywheel.h"
 
 /**
  * An example command.
@@ -22,7 +23,7 @@
 class VisionAlign
     : public frc2::CommandHelper<frc2::CommandBase, VisionAlign> {
  public:
-  VisionAlign(Limelight* limelight, Drive* drive);
+  VisionAlign(Limelight* limelight, Drive* drive, Flywheel* flywheel);
 
   void Initialize() override;
 
@@ -37,6 +38,8 @@ class VisionAlign
  private:
   Limelight* m_limelight;
   Drive* m_drive;
+  Flywheel* m_flywheel;
+
   const double STEER_K = 0.015;
 
   const double DRIVE_K = 0.01;

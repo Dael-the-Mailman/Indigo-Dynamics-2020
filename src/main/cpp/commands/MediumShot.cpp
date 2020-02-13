@@ -5,50 +5,56 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/CloseShot.h"
+#include "commands/MediumShot.h"
 
-CloseShot::CloseShot(Limelight *limelight, Drive *drive, Flywheel *flywheel)
-    : _limelight{limelight}, _drive{drive}, m_flywheel{flywheel}
+MediumShot::MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel)
+    : _limelight{limelight}, _drive{drive}, _flywheel{flywheel}
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({_limelight});
   AddRequirements({_drive});
-  AddRequirements({m_flywheel});
+  AddRequirements({_flywheel});
 }
 
 // Called when the command is initially scheduled.
-void CloseShot::Initialize() {
-  _limelight->SetPipeline(1);
-  m_flywheel->SetTarget(0.52);
+void MediumShot::Initialize() {
+  _limelight->SetPipeline(3);
+  _flywheel->SetTarget(0.54);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void CloseShot::Execute() {
-  if(_limelight->Gettv() < 1.0){
+void MediumShot::Execute() {
+  if (_limelight->Gettv() < 1.0)
+  {
     _drive->DriveArcade(0.0, 0.0);
-  } else {
+  }
+  else
+  {
     currTurnError = _limelight->Gettx();
     currFwdError = targetArea - _limelight->Getta();
     turnDerive = currTurnError - prevTurnError;
-    if(abs(currTurnError) < 4.0){
+    if (abs(currTurnError) < 4.0)
+    {
       turnIntegral += currTurnError;
-      m_flywheel->Stop();
-    } else {
+      _flywheel->Stop();
+    }
+    else
+    {
       turnIntegral = 0;
     }
     turnOutput = (currTurnError * turnKp) + (turnIntegral * turnKi) + (turnDerive * turnKd);
     fwdOutput = (currFwdError * fwdKp);
     _drive->DriveArcade(fwdOutput, turnOutput);
-    m_flywheel->Start();
+    _flywheel->Start();
     prevTurnError = currTurnError;
   }
 }
 
 // Called once the command ends or is interrupted.
-void CloseShot::End(bool interrupted) {
+void MediumShot::End(bool interrupted) {
   _limelight->SetPipeline(2);
-  m_flywheel->Stop();
+  _flywheel->Stop();
 }
 
 // Returns true when the command should end.
-bool CloseShot::IsFinished() { return false; }
+bool MediumShot::IsFinished() { return false; }
