@@ -56,3 +56,11 @@ void Limelight::SetPipeline(int pipeline){
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     table->PutNumber("pipeline", pipeline);
 }
+
+bool Limelight::WithinThreshold(double xThreshold, double areaThreshold, double targetArea){
+    if(abs(Gettx()) < xThreshold && abs(targetArea - Getta()) < areaThreshold){
+        return true;
+    } else {
+        return false;
+    }
+}

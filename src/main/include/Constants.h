@@ -21,14 +21,19 @@
 namespace FlywheelConstants
 {
     constexpr int flywheelport = 3;
-    constexpr double kF = 0.000054;
-    constexpr double kP = 0.0005;  // 0.0008
-    constexpr double kI = 0.00001; // 0.00001
-    constexpr double kD = 0.0; // 3.6
+    constexpr double kF = 0.05; // 0.000054
+    constexpr double kP = 0.30;  // 0.0005
+    constexpr double kI = 0.001; // 0.0
+    constexpr double kD = 48.0; // 48.0
+    constexpr double kFt = 0.06; // 0.000054
+    constexpr double kPt = 1.0; // 0.0005
+    constexpr double kIt = 0.001; // 0.00001
+    constexpr double kDt = 40.0;
     constexpr double peakVelocity = 17000.0;
     constexpr double kTimeoutMs = 10.0;
     constexpr int kSlotIdx = 0;
     constexpr int kPIDLoopIdx = 0;
+    constexpr int kPIDLoopIdt = 1;
     constexpr double tolerance = 100.0;
 } // namespace FlywheelConstants
 

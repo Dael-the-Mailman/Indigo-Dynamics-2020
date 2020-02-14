@@ -45,6 +45,7 @@ private:
   Autonomous m_autonomousCommand;
 
   frc::Joystick m_joy{0};
+  frc::Joystick m_partner{2};
 
   void ConfigureButtonBindings();
 };

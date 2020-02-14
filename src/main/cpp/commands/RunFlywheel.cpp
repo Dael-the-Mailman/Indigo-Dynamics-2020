@@ -26,7 +26,7 @@ void RunFlywheel::Execute()
   //   m_flywheel->Stop();
   // }
   if(shoot()){
-    m_flywheel->SetTarget(0.8);
+    m_flywheel->SetTarget(0.54);
     m_flywheel->Start();
   } else {
     m_flywheel->Stop();

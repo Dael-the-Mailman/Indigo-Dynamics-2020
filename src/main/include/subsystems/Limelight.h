@@ -32,6 +32,8 @@ class Limelight : public frc2::SubsystemBase {
 
   void SetPipeline(int pipeline);
 
+  bool WithinThreshold(double xThreshold, double areaThreshold, double targetArea);
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

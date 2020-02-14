@@ -12,6 +12,7 @@
 #include "subsystems/Limelight.h"
 #include "subsystems/Drive.h"
 #include "subsystems/Flywheel.h"
+#include "subsystems/Intake.h"
 
 /**
  * An example command.
@@ -23,7 +24,7 @@
 class MediumShot
     : public frc2::CommandHelper<frc2::CommandBase, MediumShot> {
  public:
-   MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel);
+   MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel, Intake *intake);
 
    void Initialize() override;
 
@@ -36,13 +37,14 @@ class MediumShot
    Limelight *_limelight;
    Drive *_drive;
    Flywheel *_flywheel;
-   const double fwdKp{1.6};
+   Intake* _intake;
+   const double fwdKp{1.0};
    const double fwdKi{};
    const double fwdKd{};
    const double turnKp{-0.015};
    const double turnKi{-0.001};
    const double turnKd{-0.15};
-   const double targetArea{0.7};
+   const double targetArea{0.67};
    double currFwdError{}, prevFwdError{}, fwdIntegral{}, fwdDerive{}, fwdOutput{};
    double currTurnError{}, prevTurnError{}, turnIntegral{}, turnDerive{}, turnOutput{};
 };

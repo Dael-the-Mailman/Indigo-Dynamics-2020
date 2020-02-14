@@ -40,15 +40,15 @@ RobotContainer::RobotContainer()
 void RobotContainer::ConfigureButtonBindings()
 {
   // Configure your button bindings here
-  frc2::JoystickButton m_pizzaButton{&m_joy, 1};
-  frc2::JoystickButton m_bButton{&m_joy, 2};
-  frc2::JoystickButton m_winchUp{&m_joy, 3};
-  frc2::JoystickButton m_yButton{&m_joy, 4};
+  frc2::JoystickButton m_pizzaButton{&m_partner, 1};
+  frc2::JoystickButton m_bButton{&m_joy, 3};
+  frc2::JoystickButton m_winchUp{&m_partner, 3};
+  frc2::JoystickButton m_yButton{&m_partner, 4};
   // frc2::JoystickButton m_leftShoulder{&m_joy, 5};
   frc2::JoystickButton m_rightShoulder{&m_joy, 6};
-  frc2::JoystickButton m_visionAlign{&m_joy, 7};
-  frc2::JoystickButton m_closeShot{&m_joy, 8};
-  frc2::JoystickButton m_mediumShot{&m_joy, 10};
+  frc2::JoystickButton m_visionAlign{&m_partner, 7};
+  frc2::JoystickButton m_closeShot{&m_joy, 4};
+  frc2::JoystickButton m_mediumShot{&m_joy, 2};
   m_pizzaButton.WhileHeld(RunPizza(&m_pizzatime));
   m_bButton.WhileHeld(BButton(&m_intake, &m_flywheel));
   m_yButton.WhileHeld(ReverseIntake(&m_intake));
@@ -56,8 +56,8 @@ void RobotContainer::ConfigureButtonBindings()
   m_rightShoulder.WhileHeld(RunIntake(&m_intake));
   m_visionAlign.WhileHeld(VisionAlign(&m_limelight, &m_drive, &m_flywheel));
   m_winchUp.WhenPressed(WinchUp(&m_winch));
-  m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive, &m_flywheel));
-  m_mediumShot.WhileHeld(MediumShot(&m_limelight, &m_drive, &m_flywheel));
+  m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive, &m_flywheel, &m_intake));
+  m_mediumShot.WhileHeld(MediumShot(&m_limelight, &m_drive, &m_flywheel, &m_intake));
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()

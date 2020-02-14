@@ -7,18 +7,19 @@
 
 #include "commands/MediumShot.h"
 
-MediumShot::MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel)
-    : _limelight{limelight}, _drive{drive}, _flywheel{flywheel}
+MediumShot::MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel, Intake* intake)
+    : _limelight{limelight}, _drive{drive}, _flywheel{flywheel}, _intake{intake}
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({_limelight});
   AddRequirements({_drive});
   AddRequirements({_flywheel});
+  AddRequirements({_intake});
 }
 
 // Called when the command is initially scheduled.
 void MediumShot::Initialize() {
-  _limelight->SetPipeline(3);
+  _limelight->SetPipeline(2);
   _flywheel->SetTarget(0.54);
 }
 
@@ -27,33 +28,42 @@ void MediumShot::Execute() {
   if (_limelight->Gettv() < 1.0)
   {
     _drive->DriveArcade(0.0, 0.0);
+    _flywheel->Stop();
   }
   else
   {
-    currTurnError = _limelight->Gettx();
-    currFwdError = targetArea - _limelight->Getta();
-    turnDerive = currTurnError - prevTurnError;
-    if (abs(currTurnError) < 4.0)
-    {
-      turnIntegral += currTurnError;
+    if(_limelight->WithinThreshold(1.0, 0.3, targetArea)){
+      if(_flywheel->ReachedTarget()){
+        _intake->StartIntake();
+        _intake->StartRoller();
+      } else {
+        _intake->StopIntake();
+        _intake->StopRoller();
+      }
+      _flywheel->Start();
+    } else {
       _flywheel->Stop();
+      currTurnError = _limelight->Gettx();
+      currFwdError = targetArea - _limelight->Getta();
+      turnDerive= currTurnError - prevTurnError;
+      if(abs(currTurnError < 4.0)){
+        turnIntegral += currTurnError;
+      } else {
+        turnIntegral = 0;
+      }
+      turnOutput = (currTurnError * turnKp) + (turnIntegral * turnKi) + (turnDerive * turnKd);
+      fwdOutput = (currFwdError * fwdKp);
+      _drive->DriveArcade(fwdOutput, turnOutput);
+      prevTurnError = currTurnError;
     }
-    else
-    {
-      turnIntegral = 0;
-    }
-    turnOutput = (currTurnError * turnKp) + (turnIntegral * turnKi) + (turnDerive * turnKd);
-    fwdOutput = (currFwdError * fwdKp);
-    _drive->DriveArcade(fwdOutput, turnOutput);
-    _flywheel->Start();
-    prevTurnError = currTurnError;
   }
 }
 
 // Called once the command ends or is interrupted.
 void MediumShot::End(bool interrupted) {
-  _limelight->SetPipeline(2);
   _flywheel->Stop();
+  _intake->StopIntake();
+  _intake->StopRoller();
 }
 
 // Returns true when the command should end.
