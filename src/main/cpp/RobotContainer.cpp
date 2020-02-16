@@ -49,7 +49,7 @@ void RobotContainer::ConfigureButtonBindings()
   frc2::JoystickButton m_visionAlign{&m_partner, 7};
   frc2::JoystickButton m_closeShot{&m_joy, 4};
   frc2::JoystickButton m_mediumShot{&m_joy, 2};
-  m_pizzaButton.WhileHeld(RunPizza(&m_pizzatime));
+  m_pizzaButton.WhenPressed(RunPizza(&m_pizzatime));
   m_bButton.WhileHeld(BButton(&m_intake, &m_flywheel));
   m_yButton.WhileHeld(ReverseIntake(&m_intake));
   // m_leftShoulder.WhileHeld(RunFlywheel(0.8, &m_flywheel));

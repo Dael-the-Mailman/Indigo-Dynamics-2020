@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/PizzaTime.h"
 
 /**
@@ -33,4 +34,7 @@ class RunPizza
  
  private:
   PizzaTime* _pt;
+  int count{};
+  std::string currColor, prevColor;
+  bool ReachedTarget = false;
 };
