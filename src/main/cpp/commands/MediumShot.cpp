@@ -33,7 +33,7 @@ void MediumShot::Execute() {
   else
   {
     if(_limelight->WithinThreshold(1.0, 0.3, targetArea)){
-      if(_flywheel->ReachedTarget()){
+      if(_flywheel->ReachedTarget(100)){
         _intake->StartIntake();
         _intake->StartRoller();
       } else {

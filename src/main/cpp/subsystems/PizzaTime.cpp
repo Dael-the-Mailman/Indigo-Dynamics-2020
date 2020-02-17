@@ -24,19 +24,19 @@ void PizzaTime::Periodic() {
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
     if (matchedColor == kBlueTarget)
     {
-        colorString = "Blue";
+        colorString = "B";
     }
     else if (matchedColor == kRedTarget)
     {
-        colorString = "Red";
+        colorString = "R";
     }
     else if (matchedColor == kGreenTarget)
     {
-        colorString = "Green";
+        colorString = "G";
     }
     else if (matchedColor == kYellowTarget)
     {
-        colorString = "Yellow";
+        colorString = "Y";
     }
     else
     {
@@ -57,19 +57,19 @@ std::string PizzaTime::GetColor() {
     frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
     if (matchedColor == kBlueTarget)
     {
-        colorString = "Blue";
+        colorString = "B";
     }
     else if (matchedColor == kRedTarget)
     {
-        colorString = "Red";
+        colorString = "R";
     }
     else if (matchedColor == kGreenTarget)
     {
-        colorString = "Green";
+        colorString = "G";
     }
     else if (matchedColor == kYellowTarget)
     {
-        colorString = "Yellow";
+        colorString = "Y";
     }
     else
     {
@@ -82,6 +82,14 @@ void PizzaTime::StartSpin(){
     spin->Set(ControlMode::PercentOutput, 1.0);
 }
 
+void PizzaTime::BackwardSpin(){
+    spin->Set(ControlMode::PercentOutput, -1.0);
+}
+
 void PizzaTime::StopSpin(){
     spin->Set(ControlMode::PercentOutput, 0.0);
+}
+
+void PizzaTime::ReducedSpin(){
+    spin->Set(ControlMode::PercentOutput, 0.25);
 }

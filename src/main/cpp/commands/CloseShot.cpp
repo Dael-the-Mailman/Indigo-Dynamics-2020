@@ -29,8 +29,8 @@ void CloseShot::Execute() {
     _drive->DriveArcade(0.0, 0.0);
     m_flywheel->Stop();
   } else {
-    if(_limelight->WithinThreshold(1.0, 0.3, targetArea)){
-      if(m_flywheel->ReachedTarget()){
+    if(_limelight->WithinThreshold(1.0, 0.5, targetArea)){
+      if(m_flywheel->ReachedTarget(300)){
         m_intake->StartIntake();
         m_intake->StartRoller();
       } else {

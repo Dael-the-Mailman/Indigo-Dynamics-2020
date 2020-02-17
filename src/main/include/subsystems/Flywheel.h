@@ -26,7 +26,7 @@ public:
 
   void Stop();
 
-  bool ReachedTarget();
+  bool ReachedTarget(double tol);
 
   void SetTarget(double percentage);
 

@@ -25,6 +25,10 @@ class PizzaTime : public frc2::SubsystemBase {
 
   void StopSpin();
 
+  void BackwardSpin();
+
+  void ReducedSpin();
+
    /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

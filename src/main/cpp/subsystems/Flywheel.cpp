@@ -76,7 +76,7 @@ void Flywheel::Stop()
     _flywheel->Set(ControlMode::PercentOutput, 0.0);
 }
 
-bool Flywheel::ReachedTarget(){
+bool Flywheel::ReachedTarget(double tol = tolerance){
     // double veloError = _flywheel->GetClosedLoopError(kPIDLoopIdx);
     double veloError = setpoint - _flywheel->GetSelectedSensorVelocity();
     if(abs(veloError) < tolerance){
