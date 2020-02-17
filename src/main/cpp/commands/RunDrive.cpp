@@ -7,8 +7,7 @@
 
 #include "commands/RunDrive.h"
 
-RunDrive::RunDrive(Drive *drive, std::function<double()> forward, std::function<double()> rotation)
-    : m_drive{drive}, m_forward{forward}, m_rotation{rotation}
+RunDrive::RunDrive(Drive *drive, frc::Joystick* joy) : m_drive{drive}, m_joy{joy}
 {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({m_drive});
@@ -20,7 +19,15 @@ void RunDrive::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void RunDrive::Execute()
 {
-  m_drive->Arcade(m_forward(), m_rotation());
+  fwd = m_joy->GetRawAxis(1);
+  rot = m_joy->GetRawAxis(4);
+  if(m_joy->GetRawButton(9)){
+    fwd /= 2;
+  }
+  if(m_joy->GetRawButton(10)){
+    rot /= 2;
+  }
+  m_drive->Arcade(-fwd, rot);
 }
 
 // Called once the command ends or is interrupted.

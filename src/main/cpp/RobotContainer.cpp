@@ -26,9 +26,7 @@ RobotContainer::RobotContainer()
   // Configure the button bindings
   ConfigureButtonBindings();
   // m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel));
-  m_drive.SetDefaultCommand(RunDrive(&m_drive,
-                                     [this] { return -m_joy.GetRawAxis(1); },
-                                     [this] { return m_joy.GetRawAxis(4); }));
+  m_drive.SetDefaultCommand(RunDrive(&m_drive, &m_joy));
   m_winch.SetDefaultCommand(WinchManual(&m_winch, 
                                      [this] { return m_joy.GetRawAxis(3); }));
   m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel, 

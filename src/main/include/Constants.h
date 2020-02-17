@@ -21,10 +21,10 @@
 namespace FlywheelConstants
 {
     constexpr int flywheelport = 3;
-    constexpr double kF = 0.05; // 0.000054
-    constexpr double kP = 0.30;  // 0.0005
-    constexpr double kI = 0.001; // 0.0
-    constexpr double kD = 48.0; // 48.0
+    constexpr double kF = 0.05; // 0.05
+    constexpr double kP = 0.15; // 0.30
+    constexpr double kI = 0.0001; // 0.001
+    constexpr double kD = 0.0; // 48.0
     constexpr double kFt = 0.06; // 0.000054
     constexpr double kPt = 1.0; // 0.0005
     constexpr double kIt = 0.001; // 0.00001

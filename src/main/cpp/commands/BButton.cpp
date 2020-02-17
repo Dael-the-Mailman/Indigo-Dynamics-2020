@@ -33,6 +33,7 @@ void BButton::Execute()
   //   m_intake->StopRoller();
   // }
   m_intake->StartIntake();
+  m_intake->StartRoller();
 }
 
 // Called once the command ends or is interrupted.

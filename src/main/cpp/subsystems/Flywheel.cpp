@@ -23,7 +23,7 @@ Flywheel::Flywheel()
     _flywheel->Config_kP(kPIDLoopIdx, kP, kTimeoutMs);
     _flywheel->Config_kI(kPIDLoopIdx, kI, kTimeoutMs);
     _flywheel->Config_kD(kPIDLoopIdx, kD, kTimeoutMs);
-    _flywheel->Config_IntegralZone(kPIDLoopIdx, 250);
+    _flywheel->Config_IntegralZone(kPIDLoopIdx, 1000);
 
     _flywheel->Config_kF(kPIDLoopIdt, kFt, kTimeoutMs);
     _flywheel->Config_kP(kPIDLoopIdt, kPt, kTimeoutMs);

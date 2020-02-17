@@ -27,40 +27,24 @@ void CloseShot::Initialize() {
 void CloseShot::Execute() {
   if(_limelight->Gettv() < 1.0){
     _drive->DriveArcade(0.0, 0.0);
-    m_flywheel->Stop();
   } else {
-    if(_limelight->WithinThreshold(1.0, 0.5, targetArea)){
-      if(m_flywheel->ReachedTarget(300)){
-        m_intake->StartIntake();
-        m_intake->StartRoller();
-      } else {
-        m_intake->StopIntake();
-        m_intake->StopRoller();
-      }
-      m_flywheel->Start();
+    currTurnError = _limelight->Gettx();
+    currFwdError = targetArea - _limelight->Getta();
+    turnDerive = currTurnError - prevTurnError;
+    if(currTurnError < 4.0){
+      turnIntegral += currTurnError;
     } else {
-      m_flywheel->Stop();
-      currTurnError = _limelight->Gettx();
-      currFwdError = targetArea - _limelight->Getta();
-      turnDerive = currTurnError - prevTurnError;
-      if(currTurnError < 4.0){
-        turnIntegral += currTurnError;
-      } else {
-        turnIntegral = 0;
-      }
-      turnOutput = (currTurnError * turnKp) + (turnIntegral * turnKi) + (turnDerive * turnKd);
-      fwdOutput = (currFwdError * fwdKp);
-      _drive->DriveArcade(fwdOutput, turnOutput);
-      prevTurnError = currTurnError;
+      turnIntegral = 0;
     }
+    turnOutput = (currTurnError * turnKp) + (turnIntegral * turnKi) + (turnDerive * turnKd);
+    fwdOutput = (currFwdError * fwdKp);
+    _drive->DriveArcade(fwdOutput, turnOutput);
+    prevTurnError = currTurnError;
   }
 }
 
 // Called once the command ends or is interrupted.
 void CloseShot::End(bool interrupted) {
-  m_intake->StopIntake();
-  m_intake->StopRoller();
-  m_flywheel->Stop();
 }
 
 // Returns true when the command should end.

@@ -10,6 +10,7 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/Drive.h"
+#include <frc/Joystick.h>
 
 /**
  * An example command.
@@ -22,7 +23,7 @@ class RunDrive
     : public frc2::CommandHelper<frc2::CommandBase, RunDrive>
 {
 public:
-  RunDrive(Drive *drive, std::function<double()> forward, std::function<double()> rotation);
+  RunDrive(Drive *drive, frc::Joystick* joy);
 
   void Initialize() override;
 
@@ -34,6 +35,6 @@ public:
 
 private:
   Drive *m_drive;
-  std::function<double()> m_forward;
-  std::function<double()> m_rotation;
+  frc::Joystick *m_joy;
+  double fwd, rot{};
 };
