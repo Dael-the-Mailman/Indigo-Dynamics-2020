@@ -59,3 +59,8 @@ void Intake::ReverseIntake()
     _intake->Set(ControlMode::PercentOutput, -0.5);
     _roller->Set(ControlMode::PercentOutput, -0.5);
 }
+
+void Intake::FullForward(){
+    _intake->Set(ControlMode::PercentOutput, 1.0);
+    _roller->Set(ControlMode::PercentOutput, 1.0);
+}

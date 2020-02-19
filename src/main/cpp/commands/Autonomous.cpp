@@ -10,7 +10,8 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-Autonomous::Autonomous(Drive* DriveReference) : drive{DriveReference} {
+Autonomous::Autonomous(Drive* DriveReference, Intake* IntakeReference) 
+: drive{DriveReference} , intake{IntakeReference} {
   AddRequirements({drive});
   frc::DifferentialDriveVoltageConstraint autoVoltageConstraint(
       drive->GetFeedForward(),
@@ -48,7 +49,8 @@ Autonomous::Autonomous(Drive* DriveReference) : drive{DriveReference} {
     [this](auto left, auto right) { drive->TankDriveVolts(left, right); },
     {drive});
 
-  AddCommands(std::move(ramseteCommand),
-      frc2::InstantCommand([this] {
-    drive->TankDriveVolts(0_V, 0_V); }, {}));
+  AddCommands(
+    std::move(ramseteCommand)),
+    frc2::InstantCommand([this] {
+    drive->TankDriveVolts(0_V, 0_V);}, {});
 }

@@ -20,7 +20,7 @@ MediumShot::MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel, I
 // Called when the command is initially scheduled.
 void MediumShot::Initialize() {
   _limelight->SetPipeline(2);
-  _flywheel->SetTarget(0.54);
+  _flywheel->SetTarget(0.58);
 }
 
 // Called repeatedly when this Command is scheduled to run
