@@ -11,7 +11,6 @@
 #include "commands/BButton.h"
 #include "commands/RunDrive.h"
 #include "commands/ReverseIntake.h"
-#include "commands/DriveForward.h"
 #include "commands/WinchUp.h"
 #include "commands/WinchManual.h"
 #include "commands/VisionAlign.h"
@@ -19,7 +18,7 @@
 #include "commands/CloseShot.h"
 #include "commands/MediumShot.h"
 #include "commands/ColorPizza.h"
-RobotContainer::RobotContainer()
+RobotContainer::RobotContainer() : m_autonomousCommand(&m_drive)
 {
   // Initialize all of your commands and subsystems here
 

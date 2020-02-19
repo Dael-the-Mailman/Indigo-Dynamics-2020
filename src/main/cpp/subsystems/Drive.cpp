@@ -9,6 +9,7 @@
 
 Drive::Drive()
 {
+    ResetEncoders();
     //Configure all motors to factory default
     _frontright->ConfigFactoryDefault();
     _backright->ConfigFactoryDefault();
@@ -16,8 +17,8 @@ Drive::Drive()
     _backleft->ConfigFactoryDefault();
 
     //Invert right side motors
-    _frontright->SetInverted(true);
-    _backright->SetInverted(true);
+    // _frontright->SetInverted(true);
+    // _backright->SetInverted(true);
 
     //Set the motors to brake mode
     _frontright->SetNeutralMode(NeutralMode::Brake);
@@ -32,24 +33,30 @@ Drive::Drive()
     _backleft->ConfigOpenloopRamp(1.0);
 
     //Configure constants with front right motor as the master
-    _frontright->Config_kF(kPIDLoopIdx, kF, kTimeoutMs);
-    _frontright->Config_kP(kPIDLoopIdx, kP, kTimeoutMs);
-    _frontright->Config_kI(kPIDLoopIdx, kI, kTimeoutMs);
-    _frontright->Config_kD(kPIDLoopIdx, kD, kTimeoutMs);
-    _frontright->ConfigMotionAcceleration(acceleration, kTimeoutMs);
-    _frontright->ConfigMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
-    _frontright->ConfigMotionSCurveStrength(smoothness, kTimeoutMs);
+    // _frontright->Config_kF(kPIDLoopIdx, kF, kTimeoutMs);
+    // _frontright->Config_kP(kPIDLoopIdx, kP, kTimeoutMs);
+    // _frontright->Config_kI(kPIDLoopIdx, kI, kTimeoutMs);
+    // _frontright->Config_kD(kPIDLoopIdx, kD, kTimeoutMs);
+    // _frontright->ConfigMotionAcceleration(acceleration, kTimeoutMs);
+    // _frontright->ConfigMotionCruiseVelocity(cruiseVelocity, kTimeoutMs);
+    // _frontright->ConfigMotionSCurveStrength(smoothness, kTimeoutMs);
 
-    //Configure Auxillary PID with front right motor as the master
-    _frontright->ConfigAuxPIDPolarity(false, kTimeoutMs);
+    // //Configure Auxillary PID with front right motor as the master
+    // _frontright->ConfigAuxPIDPolarity(false, kTimeoutMs);
 
-    //Configure Follower motors
-    _backleft->Follow(*_frontleft, FollowerType::FollowerType_PercentOutput);
-    _backright->Follow(*_frontright, FollowerType::FollowerType_PercentOutput);
+    // //Configure Follower motors
+    // _backleft->Follow(*_frontleft, FollowerType::FollowerType_PercentOutput);
+    // _backright->Follow(*_frontright, FollowerType::FollowerType_PercentOutput);
 }
 
 // This method will be called once per scheduler run
-void Drive::Periodic() {}
+void Drive::Periodic() {
+    odometry.Update(GetHeading(),
+                    LeftPosition(),
+                    RightPosition());
+    frc::SmartDashboard::PutNumber("Right Odom", _frontright->GetSelectedSensorPosition() * kEncoderDistancePerPulse);
+    frc::SmartDashboard::PutNumber("Left Odom", _frontleft->GetSelectedSensorPosition() * kEncoderDistancePerPulse);
+}
 
 void Drive::Arcade(double xSpeed, double zRotation)
 {
@@ -126,8 +133,9 @@ void Drive::Arcade(double xSpeed, double zRotation)
         leftMotorOutput /= maxMagnitude;
         rightMotorOutput /= maxMagnitude;
     }
-    _frontright->Set(ControlMode::PercentOutput, rightMotorOutput);
-    _frontleft->Set(ControlMode::PercentOutput, leftMotorOutput);
+    // _frontright->Set(ControlMode::PercentOutput, rightMotorOutput);
+    // _frontleft->Set(ControlMode::PercentOutput, leftMotorOutput);
+    drive.TankDrive(leftMotorOutput, rightMotorOutput, false);
 }
 
 double Drive::SquareInput(double input)
@@ -140,32 +148,72 @@ double Drive::ThresholdHandler(double input, double threshold)
     return (abs(input) >= threshold) ? input : 0;
 }
 
-void Drive::DriveDistance(double inches)
-{
-    double ticks = inches * ticksperinch;
-    _frontright->Set(ControlMode::MotionMagic, ticks);
-    _frontleft->Follow(*_frontright, FollowerType::FollowerType_AuxOutput1);
-}
-
-bool Drive::IsMagicFinished()
-{
-    if (abs(_frontright->GetClosedLoopError()) <= ticksperinch * 0.1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-void Drive::ResetSensors()
-{
-    _frontleft->SetSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
-    _frontright->SetSelectedSensorPosition(0, kPIDLoopIdx, kTimeoutMs);
-}
-
 void Drive::DriveArcade(double forward, double rotate){
-    _frontright->Set(ControlMode::PercentOutput, forward + rotate);
-    _frontleft->Set(ControlMode::PercentOutput, forward - rotate);
+    // _frontright->Set(ControlMode::PercentOutput, forward + rotate);
+    // _frontleft->Set(ControlMode::PercentOutput, forward - rotate);
+    drive.TankDrive(forward - rotate, forward + rotate, false);
+}
+
+void Drive::TankDriveVolts(units::volt_t left, units::volt_t right){
+    leftSide.SetVoltage(left);
+    rightSide.SetVoltage(-right);
+    drive.Feed();
+}
+
+void Drive::ResetEncoders()
+{
+    _frontleft->SetSelectedSensorPosition(0);
+    _frontright->SetSelectedSensorPosition(0);
+}
+
+void Drive::SetMaxOutput(double maxOutput){
+    drive.SetMaxOutput(maxOutput);
+}
+
+frc::Rotation2d Drive::GetHeading()
+{
+    return frc::Rotation2d(
+        units::degree_t(std::remainder(gyro.GetAngle(), 360) * -1));
+}
+
+frc::Pose2d Drive::GetPose() { return odometry.GetPose(); }
+
+frc::DifferentialDriveWheelSpeeds Drive::GetWheelSpeeds()
+{
+    return {LeftSpeed(), RightSpeed()};
+}
+
+void Drive::ResetOdometry(frc::Pose2d pose)
+{
+    ResetEncoders();
+    odometry.ResetPosition(pose, GetHeading());
+}
+
+frc::SimpleMotorFeedforward<units::meter> Drive::GetFeedForward()
+{
+    return feedforward;
+}
+
+units::meter_t Drive::LeftPosition()
+{
+    return units::meter_t(
+        _frontleft->GetSelectedSensorPosition() * kEncoderDistancePerPulse);
+}
+
+units::meter_t Drive::RightPosition()
+{
+    return units::meter_t(
+        -_frontright->GetSelectedSensorPosition() * kEncoderDistancePerPulse);
+}
+
+units::meters_per_second_t Drive::LeftSpeed()
+{
+    return units::meters_per_second_t(
+        _frontleft->GetSelectedSensorVelocity() * kTicksPer100msToMetersPerSecond);
+}
+
+units::meters_per_second_t Drive::RightSpeed()
+{
+    return units::meters_per_second_t(
+        -_frontleft->GetSelectedSensorVelocity() * kTicksPer100msToMetersPerSecond);
 }

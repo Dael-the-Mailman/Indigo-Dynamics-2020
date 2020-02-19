@@ -10,7 +10,27 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
-void Robot::RobotInit() {}
+// void Robot::VisionThread(){
+//   cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+//   camera.SetResolution(320, 240);
+//   cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
+//   cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 320, 240);
+//   cv::Mat source;
+//   cv::Mat output;
+//   while (true)
+//   {
+//     if (cvSink.GrabFrame(source) == 0)
+//     {
+//       continue;
+//     }
+//     cvtColor(source, output, cv::COLOR_BGR2GRAY);
+//     outputStreamStd.PutFrame(output);
+//   }
+// }
+
+void Robot::RobotInit(){
+  frc::CameraServer::GetInstance()->StartAutomaticCapture();
+}
 
 /**
  * This function is called every robot packet, no matter the mode. Use

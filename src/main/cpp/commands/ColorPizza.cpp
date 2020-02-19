@@ -15,6 +15,32 @@ ColorPizza::ColorPizza(PizzaTime* pt) : _pt{pt}{
 // Called when the command is initially scheduled.
 void ColorPizza::Initialize() {
   ReachedTarget = false;
+  std::string gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+  if (gameData.length() > 0)
+  {
+    switch (gameData[0])
+    {
+    case 'B':
+      targetColor = 'B';
+      break;
+    case 'G':
+      targetColor = 'G';
+      break;
+    case 'R':
+      targetColor = 'R';
+      break;
+    case 'Y':
+      targetColor = 'Y';
+      break;
+    default:
+      ReachedTarget = true;
+      break;
+    }
+  }
+  else
+  {
+    ReachedTarget = true;
+  }
 }
 
 // Called repeatedly when this Command is scheduled to run

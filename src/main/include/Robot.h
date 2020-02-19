@@ -9,6 +9,9 @@
 
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
+#include "cameraserver/CameraServer.h"
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
 
 #include "RobotContainer.h"
 

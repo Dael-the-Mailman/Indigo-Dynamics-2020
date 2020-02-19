@@ -10,6 +10,7 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/DriverStation.h>
 #include "subsystems/PizzaTime.h"
 
 /**
@@ -34,7 +35,7 @@ class ColorPizza
 
   private:
     PizzaTime* _pt;
-    std::string targetColor = "Y";
+    std::string targetColor;
     std::string currColor, prevColor;
     bool ReachedTarget = false;
 };

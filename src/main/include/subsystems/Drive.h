@@ -7,8 +7,19 @@
 
 #pragma once
 
+#include <frc/ADXRS450_Gyro.h>
+#include <frc/Encoder.h>
+#include "ctre/phoenix.h"
+#include <frc/SpeedControllerGroup.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <frc/geometry/Pose2d.h>
+#include <frc/kinematics/DifferentialDriveOdometry.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/Phoenix.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
+#include <units/units.h>
 #include "Constants.h"
 
 using namespace DriveConstants;
@@ -28,20 +39,46 @@ public:
 
   double ThresholdHandler(double input, double threshold); // Handles threshold values
 
-  void DriveDistance(double inches); // Drive a certain distance
-
-  bool IsMagicFinished(); // If the motion magic has finished
-
-  void ResetSensors(); // Resets the sensor values
-
   void DriveArcade(double forward, double rotate); // Actual arcade drive
+
+  void TankDriveVolts(units::volt_t left, units::volt_t right); // Runs the drive with Voltage
+
+  void ResetEncoders(); // Resets encoder values
+
+  void SetMaxOutput(double maxOutput); // Sets the maximum output of drive
+
+  void ResetOdometry(frc::Pose2d pose); // Resets the odometry of the drive
+
+  frc::Rotation2d GetHeading(); // Gets the heading of the gyro
+
+  frc::Pose2d GetPose(); // Gets the pose of the robot
+
+  frc::DifferentialDriveWheelSpeeds GetWheelSpeeds(); // Gets the left and right wheel speeds
+
+  frc::SimpleMotorFeedforward<units::meters> GetFeedForward(); // Returns the feedforward drive object
+
+  units::meter_t LeftPosition(); // Returns the left position of the bot in meters
+
+  units::meter_t RightPosition(); // Returns the right position of the bot in meters
+
+  units::meters_per_second_t LeftSpeed(); // Returns the speed of the left side in meters per second
+
+  units::meters_per_second_t RightSpeed(); // Returns the speed of the right side in meters per second
 
 private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  TalonFX *_frontright = new TalonFX(frontrightport);
-  TalonFX *_frontleft = new TalonFX(frontleftport);
-  TalonFX *_backright = new TalonFX(backrightport);
-  TalonFX *_backleft = new TalonFX(backleftport);
-  const double turnMultiplier = 0.6;
+  WPI_TalonFX *_frontright = new WPI_TalonFX(frontrightport);
+  WPI_TalonFX *_frontleft = new WPI_TalonFX(frontleftport);
+  WPI_TalonFX *_backright = new WPI_TalonFX(backrightport);
+  WPI_TalonFX *_backleft = new WPI_TalonFX(backleftport);
+
+  frc::SpeedControllerGroup leftSide{*_frontleft, *_backleft};
+  frc::SpeedControllerGroup rightSide{*_frontright, *_backright};
+
+  frc::DifferentialDrive drive{leftSide, rightSide};
+
+  frc::ADXRS450_Gyro gyro{frc::SPI::Port::kOnboardCS0};
+  frc::DifferentialDriveOdometry odometry{GetHeading()};
+  frc::SimpleMotorFeedforward<units::meters> feedforward{ks, kv, ka};
 };

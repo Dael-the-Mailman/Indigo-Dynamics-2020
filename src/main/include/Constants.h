@@ -8,6 +8,10 @@
 #pragma once
 #include <frc/util/color.h>
 #include <frc/I2C.h>
+#include <frc/kinematics/DifferentialDriveKinematics.h>
+#include <frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h>
+#include <units/units.h>
+#include <wpi/math>
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
@@ -69,7 +73,35 @@ namespace DriveConstants
     constexpr double kTimeoutMs = 10.0;
     constexpr int kPIDLoopIdx = 0;
     constexpr int smoothness = 8;
+    constexpr double turnMultiplier = 0.6;
+    constexpr auto ks = 0.259_V;
+    constexpr auto kv = 2.46 * 1_V * 1_s / 1_m;
+    constexpr auto ka = 0.172 * 1_V * 1_s * 1_s / 1_m;
+    constexpr auto kTrackwidth = 0.608772591_m;
+    static const frc::DifferentialDriveKinematics kDriveKinematics{kTrackwidth};
+
+    constexpr bool kGyroReversed = true;
+    constexpr double kGearRatio = 10.75;
+    constexpr int kEncoderCPR = 2048;
+    constexpr double kWheelRadius = 0.0762;
+    constexpr double kEncoderDistancePerPulse =
+        // Assumes the encoders are directly mounted on the wheel shafts
+        (2 * kWheelRadius * wpi::math::pi) / (static_cast<double>(kEncoderCPR) * kGearRatio);
+    constexpr double kTicksPer100msToMetersPerSecond = (10 * wpi::math::pi * kWheelRadius) / (static_cast<double>(kEncoderCPR) * kGearRatio);
+    constexpr double kPDriveVel = 0.00935;
+    constexpr double kDDriveVel = 0.00362;
 } // namespace DriveConstants
+
+namespace AutoConstants
+{
+constexpr auto kMaxSpeed = 4_mps;           //3.78864
+constexpr auto kMaxAcceleration = 1_mps_sq; //1.89432
+
+// Reasonable baseline values for a RAMSETE follower in units of meters and
+// seconds
+constexpr double kRamseteB = 2;
+constexpr double kRamseteZeta = 0.7;
+} // namespace AutoConstants
 
 namespace WinchConstants{
     constexpr int winchport = 0;
