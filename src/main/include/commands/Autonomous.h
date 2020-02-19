@@ -24,14 +24,17 @@
 #include <wpi/SmallString.h>
 
 #include "subsystems/Drive.h"
+#include "subsystems/Intake.h"
 #include "Constants.h"
 
 class Autonomous
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  Autonomous> {
  public:
-  Autonomous(Drive* DriveReference);
+  Autonomous(Drive* DriveReference, Intake* IntakeReference);
+  
 
  private:
   Drive* drive;
+  Intake* intake;
 };
