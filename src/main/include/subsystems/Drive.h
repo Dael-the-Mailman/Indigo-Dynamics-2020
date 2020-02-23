@@ -65,6 +65,12 @@ public:
 
   units::meters_per_second_t RightSpeed(); // Returns the speed of the right side in meters per second
 
+  double GetAngle();
+
+  void ResetAngle();
+
+  double GetPercentOutput();
+  
 private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

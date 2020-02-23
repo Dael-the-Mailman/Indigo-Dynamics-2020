@@ -56,12 +56,13 @@ void Drive::Periodic() {
                     RightPosition());
     frc::SmartDashboard::PutNumber("Right Odom", _frontright->GetSelectedSensorPosition() * kEncoderDistancePerPulse);
     frc::SmartDashboard::PutNumber("Left Odom", _frontleft->GetSelectedSensorPosition() * kEncoderDistancePerPulse);
+    frc::SmartDashboard::PutNumber("Gyro", GetAngle());
 }
 
 void Drive::Arcade(double xSpeed, double zRotation)
 {
-    xSpeed = SquareInput(xSpeed) * turnMultiplier;
-    zRotation = SquareInput(zRotation);
+    xSpeed = SquareInput(xSpeed);
+    zRotation = SquareInput(zRotation) * turnMultiplier;
     double angularPower;
     double m_quickStopAccumulator{};
     bool overPower;
@@ -216,4 +217,16 @@ units::meters_per_second_t Drive::RightSpeed()
 {
     return units::meters_per_second_t(
         -_frontleft->GetSelectedSensorVelocity() * kTicksPer100msToMetersPerSecond);
+}
+
+double Drive::GetAngle(){
+    return -gyro.GetAngle();
+}
+
+void Drive::ResetAngle(){
+    gyro.Reset();
+}
+
+double Drive::GetPercentOutput(){
+    return _frontright->GetMotorOutputPercent();
 }

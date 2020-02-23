@@ -18,7 +18,7 @@
 #include "commands/CloseShot.h"
 #include "commands/MediumShot.h"
 #include "commands/ColorPizza.h"
-RobotContainer::RobotContainer() : m_autonomousCommand(&m_drive, &m_intake)
+RobotContainer::RobotContainer() : m_autonomousCommand(&m_drive, &m_intake, &m_timer, &m_flywheel)
 {
   // Initialize all of your commands and subsystems here
 

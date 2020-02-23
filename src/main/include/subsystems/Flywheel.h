@@ -26,7 +26,7 @@ public:
 
   void Stop();
 
-  bool ReachedTarget(double tol);
+  bool ReachedTarget(double tol = tolerance);
 
   void SetTarget(double percentage);
 

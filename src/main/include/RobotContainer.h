@@ -9,6 +9,7 @@
 
 #include <frc/Joystick.h>
 #include <frc/XboxController.h>
+#include <frc/Timer.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/button/Button.h>
 #include <frc2/command/button/JoystickButton.h>
@@ -43,6 +44,7 @@ private:
   Limelight m_limelight;
   PizzaTime m_pizzatime;
   Autonomous m_autonomousCommand;
+  frc::Timer m_timer;
 
   frc::Joystick m_joy{0};
   frc::Joystick m_partner{2};
