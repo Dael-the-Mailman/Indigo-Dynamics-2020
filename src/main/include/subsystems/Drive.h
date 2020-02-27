@@ -79,10 +79,7 @@ private:
   WPI_TalonFX *_backright = new WPI_TalonFX(backrightport);
   WPI_TalonFX *_backleft = new WPI_TalonFX(backleftport);
 
-  frc::SpeedControllerGroup leftSide{*_frontleft, *_backleft};
-  frc::SpeedControllerGroup rightSide{*_frontright, *_backright};
-
-  frc::DifferentialDrive drive{leftSide, rightSide};
+  frc::DifferentialDrive drive{*_frontleft, *_frontright};
 
   frc::ADXRS450_Gyro gyro{frc::SPI::Port::kOnboardCS0};
   frc::DifferentialDriveOdometry odometry{GetHeading()};

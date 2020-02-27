@@ -45,8 +45,8 @@ Drive::Drive()
     // _frontright->ConfigAuxPIDPolarity(false, kTimeoutMs);
 
     // //Configure Follower motors
-    // _backleft->Follow(*_frontleft, FollowerType::FollowerType_PercentOutput);
-    // _backright->Follow(*_frontright, FollowerType::FollowerType_PercentOutput);
+    _backleft->Follow(*_frontleft, FollowerType::FollowerType_PercentOutput);
+    _backright->Follow(*_frontright, FollowerType::FollowerType_PercentOutput);
 }
 
 // This method will be called once per scheduler run
@@ -156,8 +156,8 @@ void Drive::DriveArcade(double forward, double rotate){
 }
 
 void Drive::TankDriveVolts(units::volt_t left, units::volt_t right){
-    leftSide.SetVoltage(left);
-    rightSide.SetVoltage(-right);
+    _frontleft->SetVoltage(left);
+    _frontright->SetVoltage(-right);
     drive.Feed();
 }
 

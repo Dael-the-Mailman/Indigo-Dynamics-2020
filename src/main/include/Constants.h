@@ -88,8 +88,8 @@ namespace DriveConstants
         // Assumes the encoders are directly mounted on the wheel shafts
         (2 * kWheelRadius * wpi::math::pi) / (static_cast<double>(kEncoderCPR) * kGearRatio);
     constexpr double kTicksPer100msToMetersPerSecond = (10 * wpi::math::pi * kWheelRadius) / (static_cast<double>(kEncoderCPR) * kGearRatio);
-    constexpr double kPDriveVel = 0.00144;
-    constexpr double kDDriveVel = 0.000624;
+    constexpr double kPDriveVel = 0.00281;
+    constexpr double kDDriveVel = 0.0;
 } // namespace DriveConstants
 
 namespace AutoConstants

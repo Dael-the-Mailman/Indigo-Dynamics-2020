@@ -18,7 +18,9 @@
 #include "commands/CloseShot.h"
 #include "commands/MediumShot.h"
 #include "commands/ColorPizza.h"
-RobotContainer::RobotContainer() : m_autonomousCommand(&m_drive, &m_intake, &m_timer, &m_flywheel)
+RobotContainer::RobotContainer() : 
+AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel),
+AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
 {
   // Initialize all of your commands and subsystems here
 
@@ -63,5 +65,19 @@ void RobotContainer::ConfigureButtonBindings()
 frc2::Command *RobotContainer::GetAutonomousCommand()
 {
   // An example command will be run in autonomous
-  return &m_autonomousCommand;
+  CommandSelector autonChoice = SelectAlignWithPort;
+  switch (autonChoice)
+  {
+  case (SelectAlignWithNearTrench):
+    m_autonomousCommand = &AlignWithNearTrenchAuto;
+    break;
+  
+  case (SelectAlignWithPort):
+    m_autonomousCommand = &AlignWithPortAuto;
+    break;
+
+  default:
+    break;
+  }
+  return m_autonomousCommand;
 }

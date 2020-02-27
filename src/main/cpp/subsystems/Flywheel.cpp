@@ -62,13 +62,8 @@ void Flywheel::Start()
     //     output = -1.0;
     // }
     // _flywheel->Set(ControlMode::PercentOutput, output);
-    if(setpoint < 0.6 * peakVelocity){
-        _flywheel->SelectProfileSlot(kPIDLoopIdx, 0);
-        _flywheel->Set(ControlMode::Velocity, setpoint);
-    } else {
-        _flywheel->SelectProfileSlot(kPIDLoopIdt, 0);
-        _flywheel->Set(ControlMode::Velocity, setpoint);
-    }
+    _flywheel->SelectProfileSlot(kPIDLoopIdx, 0);
+    _flywheel->Set(ControlMode::Velocity, setpoint);
 }
 
 void Flywheel::Stop()

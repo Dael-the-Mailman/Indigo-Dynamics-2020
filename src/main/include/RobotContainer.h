@@ -13,6 +13,8 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/button/Button.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/SelectCommand.h>
+#include <frc2/command/RunCommand.h>
 #include "subsystems/Flywheel.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Drive.h"
@@ -20,6 +22,7 @@
 #include "subsystems/Limelight.h"
 #include "subsystems/PizzaTime.h"
 #include "commands/Autonomous.h"
+#include "commands/AlignWithPort.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -43,11 +46,17 @@ private:
   Winch m_winch;
   Limelight m_limelight;
   PizzaTime m_pizzatime;
-  Autonomous m_autonomousCommand;
   frc::Timer m_timer;
 
   frc::Joystick m_joy{0};
   frc::Joystick m_partner{2};
+
+  Autonomous AlignWithNearTrenchAuto;
+  AlignWithPort AlignWithPortAuto;
+
+  frc2::Command* m_autonomousCommand = nullptr;
+
+  enum CommandSelector {SelectAlignWithNearTrench, SelectAlignWithPort};
 
   void ConfigureButtonBindings();
 };

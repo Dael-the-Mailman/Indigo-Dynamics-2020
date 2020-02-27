@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystems/Limelight.h"
 #include "subsystems/Drive.h"
 
 /**
@@ -18,10 +19,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TurnAngle
-    : public frc2::CommandHelper<frc2::CommandBase, TurnAngle> {
+class VisionAlignAction
+    : public frc2::CommandHelper<frc2::CommandBase, VisionAlignAction> {
  public:
-  TurnAngle(double angle, Drive* drive);
+  VisionAlignAction(bool isClockwise, Drive* drive, Limelight* limelight);
 
   void Initialize() override;
 
@@ -32,9 +33,11 @@ class TurnAngle
   bool IsFinished() override;
 
  private:
+  bool isCw;
   Drive* _drive;
-  double targetAngle, output, error, currAngle, prevAngle, deriv, integral{};
-  const double kP{0.0043};
-  const double kI{0.0002};
-  const double kD{0.0};
+  Limelight* _limelight;
+  const double turnKp{-0.015};
+  const double turnKi{-0.001};
+  const double turnKd{-0.15};
+  double currTurnError, prevTurnError, turnDerive, turnIntegral, turnOutput{};
 };

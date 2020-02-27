@@ -9,7 +9,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/Drive.h"
+#include "subsystems/Flywheel.h"
+#include "subsystems/Intake.h"
+#include  <frc/Timer.h>
 
 /**
  * An example command.
@@ -18,10 +20,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TurnAngle
-    : public frc2::CommandHelper<frc2::CommandBase, TurnAngle> {
+class Shoot
+    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
-  TurnAngle(double angle, Drive* drive);
+  Shoot(double time, double speed, Flywheel* flywheel, Intake* intake, frc::Timer* timer);
 
   void Initialize() override;
 
@@ -32,9 +34,9 @@ class TurnAngle
   bool IsFinished() override;
 
  private:
-  Drive* _drive;
-  double targetAngle, output, error, currAngle, prevAngle, deriv, integral{};
-  const double kP{0.0043};
-  const double kI{0.0002};
-  const double kD{0.0};
+  Flywheel* _flywheel;
+  Intake* _intake;
+  frc::Timer* _timer;
+  double timeLimit, targetSpeed{};
+  bool shoot = false;
 };
