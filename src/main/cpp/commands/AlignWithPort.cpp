@@ -45,11 +45,27 @@ AlignWithPort::AlignWithPort(Drive *DriveReference, Intake *IntakeReference, frc
   frc::Trajectory Get3Cells = frc::TrajectoryGenerator::GenerateTrajectory(
     frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
     {},
-    frc::Pose2d(4.2_m, 0_m, frc::Rotation2d(0_deg)),
+    frc::Pose2d(2.7_m, 0_m, frc::Rotation2d(0_deg)),
     config);
+
+  frc::Trajectory backward = frc::TrajectoryGenerator::GenerateTrajectory(
+    frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+    {},
+    frc::Pose2d(-1.5_m, 0_m, frc::Rotation2d(0_deg)),
+    backwardconfig);
 
   frc2::RamseteCommand Get3CellsCommand(
     Get3Cells, [this]() { return drive->GetPose(); },
+    frc::RamseteController(AutoConstants::kRamseteB, AutoConstants::kRamseteZeta),
+    drive->GetFeedForward(), DriveConstants::kDriveKinematics,
+    [this] { return drive->GetWheelSpeeds(); },
+    frc2::PIDController(DriveConstants::kPDriveVel, 0.0, DriveConstants::kDDriveVel),
+    frc2::PIDController(DriveConstants::kPDriveVel, 0.0, DriveConstants::kDDriveVel),
+    [this](auto left, auto right) { drive->TankDriveVolts(left, right); },
+    {drive});
+
+  frc2::RamseteCommand BackwardCommand(
+    backward, [this]() { return drive->GetPose(); },
     frc::RamseteController(AutoConstants::kRamseteB, AutoConstants::kRamseteZeta),
     drive->GetFeedForward(), DriveConstants::kDriveKinematics,
     [this] { return drive->GetWheelSpeeds(); },
@@ -64,16 +80,18 @@ AlignWithPort::AlignWithPort(Drive *DriveReference, Intake *IntakeReference, frc
         drive->ResetOdometry(frc::Pose2d{0_m, 0_m, frc::Rotation2d(0_deg)});
       }),
       frc2::ParallelRaceGroup(
-          TurnAngle(25, drive),
+          frc2::SequentialCommandGroup(
+              std::move(BackwardCommand),
+              TurnAngle(18, drive)),
           frc2::RunCommand([this] {
-            flywheel->SetTarget(0.60);
+            flywheel->SetTarget(0.54);
             flywheel->Start();
           })),
-      Shoot(5.0, 0.54, flywheel, intake, timer),
+      Shoot(2.5, 0.54, flywheel, intake, timer),
       frc2::InstantCommand([this] {
         drive->ResetAngle();
       }),
-      TurnAngle(155, drive),
+      TurnAngle(160, drive),
       frc2::InstantCommand([this] {
         drive->ResetOdometry(frc::Pose2d{0_m, 0_m, frc::Rotation2d(0_deg)});
       }),
@@ -84,9 +102,20 @@ AlignWithPort::AlignWithPort(Drive *DriveReference, Intake *IntakeReference, frc
             flywheel->Start();
           }),
           RunIntake(intake)),
-      TurnAngle(360, drive),
-      VisionAlignAction(false, drive, limelight),
-      Shoot(5.0, 0.6, flywheel, intake, timer),
+      frc2::InstantCommand([this] {
+        drive->ResetAngle();
+      }),
+      frc2::ParallelRaceGroup(
+        frc2::RunCommand([this] {
+          flywheel->SetTarget(0.6);
+          flywheel->Start();
+        }),
+        frc2::SequentialCommandGroup(
+          TurnAngle(-165, drive),
+          VisionAlignAction(false, drive, limelight),
+          Shoot(5.0, 0.6, flywheel, intake, timer)
+        )
+      ),
       frc2::InstantCommand([this] {
         drive->TankDriveVolts(0_V, 0_V);
       },

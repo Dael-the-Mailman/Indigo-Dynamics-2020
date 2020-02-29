@@ -24,7 +24,7 @@ void TurnAngle::Execute() {
   currAngle = _drive->GetAngle();
   error = targetAngle - currAngle;
   deriv = currAngle - prevAngle;
-  if(abs(error) < 20){
+  if(abs(error) < 30){
     integral += error;
   } else {
     integral = 0;
@@ -44,7 +44,7 @@ void TurnAngle::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool TurnAngle::IsFinished() {
-  if(fabs(error) < 0.25 && fabs(_drive->GetPercentOutput()) < 0.05){
+  if(fabs(error) < 0.75 && fabs(_drive->GetPercentOutput()) < 0.05){
     return true;
   } else {
     return false;

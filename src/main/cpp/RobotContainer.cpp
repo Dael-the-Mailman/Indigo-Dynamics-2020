@@ -68,7 +68,7 @@ void RobotContainer::ConfigureButtonBindings()
 frc2::Command *RobotContainer::GetAutonomousCommand()
 {
   // An example command will be run in autonomous
-  CommandSelector autonChoice = SelectAlignWithPort;
+  CommandSelector autonChoice = SelectAlignWithNearTrench;
   switch (autonChoice)
   {
   case (SelectAlignWithNearTrench):

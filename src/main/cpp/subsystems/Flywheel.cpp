@@ -87,5 +87,5 @@ void Flywheel::SetTarget(double percentage){
 
 void Flywheel::RunDefaultSpeed(){
     _flywheel->SelectProfileSlot(kPIDLoopIdx, 0);
-    _flywheel->Set(ControlMode::PercentOutput, 0.5);
+    _flywheel->Set(ControlMode::PercentOutput, 0.3);
 }

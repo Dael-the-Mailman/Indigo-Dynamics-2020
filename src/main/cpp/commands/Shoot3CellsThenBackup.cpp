@@ -45,7 +45,7 @@ Shoot3CellsThenBackup::Shoot3CellsThenBackup(Drive *DriveReference, Intake *Inta
   frc::Trajectory backup = frc::TrajectoryGenerator::GenerateTrajectory(
     frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
     {},
-    frc::Pose2d(-2_m, 0_m, frc::Rotation2d(0_deg)),
+    frc::Pose2d(-1_m, 0_m, frc::Rotation2d(0_deg)),
     backwardconfig
   );
 

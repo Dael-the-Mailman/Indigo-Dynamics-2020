@@ -22,7 +22,7 @@ void AlignCells::Execute() {
     _intake->StopRoller();
   } else {
     _intake->StartIntake();
-    _intake->StartIntake();
+    _intake->StartRoller();
   }
 }
 
