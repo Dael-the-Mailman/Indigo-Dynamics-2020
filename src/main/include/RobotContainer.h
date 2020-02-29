@@ -23,6 +23,8 @@
 #include "subsystems/PizzaTime.h"
 #include "commands/Autonomous.h"
 #include "commands/AlignWithPort.h"
+#include "commands/OnTheFlyAuton.h"
+#include "commands/Shoot3CellsThenBackup.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -53,10 +55,15 @@ private:
 
   Autonomous AlignWithNearTrenchAuto;
   AlignWithPort AlignWithPortAuto;
+  OnTheFlyAuton OnTheFly;
+  Shoot3CellsThenBackup ShootStuff;
 
   frc2::Command* m_autonomousCommand = nullptr;
 
-  enum CommandSelector {SelectAlignWithNearTrench, SelectAlignWithPort};
+  enum CommandSelector {SelectAlignWithNearTrench, 
+                        SelectAlignWithPort,
+                        SelectOnTheFly,
+                        SelectShootStuff};
 
   void ConfigureButtonBindings();
 };

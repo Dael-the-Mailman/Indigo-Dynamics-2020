@@ -20,7 +20,9 @@
 #include "commands/ColorPizza.h"
 RobotContainer::RobotContainer() : 
 AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel),
-AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
+AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
+OnTheFly(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
+ShootStuff(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
 {
   // Initialize all of your commands and subsystems here
 
@@ -75,6 +77,14 @@ frc2::Command *RobotContainer::GetAutonomousCommand()
   
   case (SelectAlignWithPort):
     m_autonomousCommand = &AlignWithPortAuto;
+    break;
+
+  case (SelectOnTheFly):
+    m_autonomousCommand = &OnTheFly;
+    break;
+  
+  case (SelectShootStuff):
+    m_autonomousCommand = &ShootStuff;
     break;
 
   default:
