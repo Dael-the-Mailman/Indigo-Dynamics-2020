@@ -16,16 +16,18 @@ VisionAlignAction::VisionAlignAction(bool isClockwise, Drive *drive, Limelight *
 }
 
 // Called when the command is initially scheduled.
-void VisionAlignAction::Initialize() {}
+void VisionAlignAction::Initialize() {
+  _limelight->SetPipeline(2);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void VisionAlignAction::Execute() {
   if (_limelight->Gettv() < 1.0)
   {
     if(isCw){
-      _drive->DriveArcade(0.0, -0.5);
+      _drive->DriveArcade(0.0, -0.25);
     } else {
-      _drive->DriveArcade(0.0, 0.5);
+      _drive->DriveArcade(0.0, 0.25);
     }
   }
   else
@@ -53,7 +55,7 @@ void VisionAlignAction::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool VisionAlignAction::IsFinished() {
-  if (fabs(currTurnError) < 0.1 && fabs(_drive->GetPercentOutput()) < 0.05){
+  if (fabs(currTurnError) < 0.5 && fabs(_drive->GetPercentOutput()) < 0.05){
     return true;
   } else {
     return false;

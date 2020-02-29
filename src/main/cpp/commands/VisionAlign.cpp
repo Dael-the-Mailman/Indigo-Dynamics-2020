@@ -18,7 +18,7 @@ VisionAlign::VisionAlign(Limelight* limelight,  Drive* drive, Flywheel* flywheel
 // Called when the command is initially scheduled.
 void VisionAlign::Initialize(){
   m_limelight->SetPipeline(0);
-  m_flywheel->SetTarget(0.74);
+  m_flywheel->SetTarget(0.78);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -29,7 +29,7 @@ void VisionAlign::Execute() {
   } else {
     curerror = m_limelight->Gettx();
     deriv = curerror - preverror;
-    if(abs(curerror) < 4.0 && abs(curerror) > 0.35){
+    if(abs(curerror) < 4.0){
       integral += curerror;
     } else {
       integral = 0;
@@ -38,14 +38,12 @@ void VisionAlign::Execute() {
     double turnCmd = Clamp(output, -MAX_STEER, MAX_STEER);
     // double forwardCmd = (DESIRED_TARGET_AREA - m_limelight->Getta()) * DRIVE_K;
     m_drive->DriveArcade(0.0, turnCmd);
-    m_flywheel->Start();
     preverror = curerror;
   }
 }
 
 // Called once the command ends or is interrupted.
 void VisionAlign::End(bool interrupted) {
-  m_limelight->SetPipeline(2);
   m_flywheel->Stop();
 }
 

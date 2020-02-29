@@ -94,7 +94,7 @@ namespace DriveConstants
 
 namespace AutoConstants
 {
-constexpr auto kMaxSpeed = 1_mps;           //3.78864
+constexpr auto kMaxSpeed = 4_mps;           //3.78864
 constexpr auto kMaxAcceleration = 1_mps_sq; //1.89432
 
 // Reasonable baseline values for a RAMSETE follower in units of meters and
@@ -116,7 +116,7 @@ namespace WinchConstants{
 namespace SpinConstants{
     constexpr int spinport = 8;
     constexpr auto i2cPort = frc::I2C::Port::kOnboard;
-    constexpr frc::Color kBlueTarget = frc::Color(0.22, 0.48, 0.29); // 0.16, 0.45, 0.39
+    constexpr frc::Color kBlueTarget = frc::Color(0.16, 0.45, 0.39); //  0.22, 0.48, 0.29
     constexpr frc::Color kGreenTarget = frc::Color(0.18, 0.57, 0.25);
     constexpr frc::Color kRedTarget = frc::Color(0.47, 0.37, 0.15);
     constexpr frc::Color kYellowTarget = frc::Color(0.31, 0.55, 0.13);

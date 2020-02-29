@@ -20,7 +20,7 @@ CloseShot::CloseShot(Limelight *limelight, Drive *drive, Flywheel *flywheel, Int
 // Called when the command is initially scheduled.
 void CloseShot::Initialize() {
   _limelight->SetPipeline(1);
-  m_flywheel->SetTarget(0.52);
+  m_flywheel->SetTarget(0.54);
 }
 
 // Called repeatedly when this Command is scheduled to run

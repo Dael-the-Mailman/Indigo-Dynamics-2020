@@ -91,5 +91,5 @@ void PizzaTime::StopSpin(){
 }
 
 void PizzaTime::ReducedSpin(){
-    spin->Set(ControlMode::PercentOutput, 0.25);
+    spin->Set(ControlMode::PercentOutput, 0.75);
 }

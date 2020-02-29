@@ -29,7 +29,8 @@ AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
   // m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel));
   m_drive.SetDefaultCommand(RunDrive(&m_drive, &m_joy));
   m_winch.SetDefaultCommand(WinchManual(&m_winch, 
-                                     [this] { return m_joy.GetRawAxis(3); }));
+                                     [this] { return m_partner.GetRawAxis(3); },
+                                     [this] { return m_partner.GetRawAxis(2); }));
   m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel, 
                                      [this] { return m_joy.GetRawButton(5); }));
 
@@ -46,7 +47,7 @@ void RobotContainer::ConfigureButtonBindings()
   frc2::JoystickButton m_yButton{&m_partner, 3};
   // frc2::JoystickButton m_leftShoulder{&m_joy, 5};
   frc2::JoystickButton m_rightShoulder{&m_joy, 6};
-  frc2::JoystickButton m_visionAlign{&m_partner, 7};
+  frc2::JoystickButton m_visionAlign{&m_joy, 1};
   frc2::JoystickButton m_closeShot{&m_joy, 4};
   frc2::JoystickButton m_mediumShot{&m_joy, 2};
   frc2::JoystickButton m_colorPizza{&m_partner, 4};

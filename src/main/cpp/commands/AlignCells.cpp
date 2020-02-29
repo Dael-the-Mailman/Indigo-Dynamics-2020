@@ -5,35 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/RunFlywheel.h"
+#include "commands/AlignCells.h"
 
-RunFlywheel::RunFlywheel(Flywheel *flywheel, std::function<bool()> button)
-    : m_flywheel{flywheel}, shoot{button}
-{
+AlignCells::AlignCells(Intake* intake) : _intake(intake){
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({m_flywheel});
+  AddRequirements({_intake});
 }
 
 // Called when the command is initially scheduled.
-void RunFlywheel::Initialize(){}
+void AlignCells::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void RunFlywheel::Execute()
-{
-  // if(m_joy->GetRawButton(5)){
-  //   m_flywheel->Start(0.7);
-  // } else {
-  //   m_flywheel->Stop();
-  // }
-  if(shoot()){
-    m_flywheel->Start();
+void AlignCells::Execute() {
+  if(_intake->IsTopBroken()){
+    _intake->StopIntake();
+    _intake->StopRoller();
   } else {
-    m_flywheel->RunDefaultSpeed();
+    _intake->StartIntake();
+    _intake->StartIntake();
   }
 }
 
 // Called once the command ends or is interrupted.
-void RunFlywheel::End(bool interrupted) {}
+void AlignCells::End(bool interrupted) {
+  _intake->StopIntake();
+  _intake->StopRoller();
+}
 
 // Returns true when the command should end.
-bool RunFlywheel::IsFinished() { return false; }
+bool AlignCells::IsFinished() { return false; }

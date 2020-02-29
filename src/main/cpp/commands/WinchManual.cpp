@@ -7,8 +7,9 @@
 
 #include "commands/WinchManual.h"
 
-WinchManual::WinchManual(Winch* winch, std::function<double()> percentage) 
-  : m_winch{winch}, m_percentage{percentage} {
+WinchManual::WinchManual(Winch *winch, std::function<double()> percentage, std::function<double()> reverse)
+    : m_winch{winch}, m_percentage{percentage}, m_reverse{reverse}
+{
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({m_winch});
 }
@@ -18,7 +19,7 @@ void WinchManual::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void WinchManual::Execute() {
-  m_winch->Manual(m_percentage());
+  m_winch->Manual(m_percentage() - m_reverse());
 }
 
 // Called once the command ends or is interrupted.

@@ -8,15 +8,16 @@
 #include "subsystems/Winch.h"
 
 Winch::Winch() {
-    // _winch->SetSelectedSensorPosition(0);
-    // _winch->SetNeutralMode(NeutralMode::Brake);
-    // _winch->SetInverted(true);
+    _winch->ConfigFactoryDefault();
+    _winch->SetSelectedSensorPosition(0);
+    _winch->SetNeutralMode(NeutralMode::Brake);
+    _winch->SetInverted(true);
     // // _winch->Config_kP(kPIDx, kP, kTimeout);
     // // _winch->Config_kD(kPIDx, kD, kTimeout);
-    // _winch->ConfigNominalOutputForward(0, kTimeout);
-    // _winch->ConfigNominalOutputReverse(0, kTimeout);
-    // _winch->ConfigPeakOutputForward(1, kTimeout);
-    // _winch->ConfigPeakOutputReverse(0, kTimeout);
+    _winch->ConfigNominalOutputForward(0, kTimeout);
+    _winch->ConfigNominalOutputReverse(0, kTimeout);
+    _winch->ConfigPeakOutputForward(1, kTimeout);
+    _winch->ConfigPeakOutputReverse(-1, kTimeout);
 }
 
 // This method will be called once per scheduler run

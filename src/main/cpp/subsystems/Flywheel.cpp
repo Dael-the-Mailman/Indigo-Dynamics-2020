@@ -84,3 +84,8 @@ bool Flywheel::ReachedTarget(double tol){
 void Flywheel::SetTarget(double percentage){
     setpoint = peakVelocity*percentage;
 }
+
+void Flywheel::RunDefaultSpeed(){
+    _flywheel->SelectProfileSlot(kPIDLoopIdx, 0);
+    _flywheel->Set(ControlMode::PercentOutput, 0.5);
+}

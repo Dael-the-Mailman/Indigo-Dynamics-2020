@@ -20,7 +20,7 @@
 class WinchManual
     : public frc2::CommandHelper<frc2::CommandBase, WinchManual> {
  public:
-  WinchManual(Winch* winch, std::function<double()> percentage);
+  WinchManual(Winch* winch, std::function<double()> percentage, std::function<double()> reverse);
 
   void Initialize() override;
 
@@ -32,4 +32,5 @@ class WinchManual
  private:
   Winch* m_winch;
   std::function<double()> m_percentage;
+  std::function<double()> m_reverse;
 };

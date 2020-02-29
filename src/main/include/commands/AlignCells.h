@@ -9,8 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/Limelight.h"
-#include "subsystems/Drive.h"
+#include "subsystems/Intake.h"
 
 /**
  * An example command.
@@ -19,10 +18,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class VisionAlignAction
-    : public frc2::CommandHelper<frc2::CommandBase, VisionAlignAction> {
+class AlignCells
+    : public frc2::CommandHelper<frc2::CommandBase, AlignCells> {
  public:
-  VisionAlignAction(bool isClockwise, Drive* drive, Limelight* limelight);
+  AlignCells(Intake *intake);
 
   void Initialize() override;
 
@@ -33,11 +32,5 @@ class VisionAlignAction
   bool IsFinished() override;
 
  private:
-  bool isCw;
-  Drive* _drive;
-  Limelight* _limelight;
-  const double turnKp{-0.012};
-  const double turnKi{-0.001};
-  const double turnKd{-0.12};
-  double currTurnError, prevTurnError, turnDerive, turnIntegral, turnOutput{};
+  Intake *_intake;
 };

@@ -46,7 +46,7 @@ class VisionAlign
 
   const double Kd = 0.15;
 
-  const double Ki = 0.004;
+  const double Ki = 0.001;
 
   const double DESIRED_TARGET_AREA = 13.0;
   const double MAX_DRIVE = 0.65;
