@@ -20,6 +20,7 @@ CloseShot::CloseShot(Limelight *limelight, Drive *drive, Flywheel *flywheel, Int
 // Called when the command is initially scheduled.
 void CloseShot::Initialize() {
   _limelight->SetPipeline(1);
+  _limelight->EnablePiPMain();
   m_flywheel->SetTarget(0.54);
 }
 
@@ -45,6 +46,7 @@ void CloseShot::Execute() {
 
 // Called once the command ends or is interrupted.
 void CloseShot::End(bool interrupted) {
+  _limelight->EnablePiPSecondary();
 }
 
 // Returns true when the command should end.

@@ -20,7 +20,7 @@ void Limelight::Periodic() {
     ta = table->GetNumber("ta", 0.0);
     tv = table->GetNumber("tv", 0.0);
     pipe = table->GetNumber("getpipe", 0.0);
-    table->PutNumber("stream", 2);
+    table->PutNumber("stream", pipMode);
     frc::SmartDashboard::PutNumber("TX", tx);
     frc::SmartDashboard::PutNumber("TA", ta);
     frc::SmartDashboard::PutNumber("Pipeline", pipe);
@@ -69,4 +69,12 @@ bool Limelight::WithinThreshold(double xThreshold, double areaThreshold, double 
 void Limelight::EnablePIP(){
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
     table->PutNumber("stream", 2);
+}
+
+void Limelight::EnablePiPMain(){
+    pipMode = 1;
+}
+
+void Limelight::EnablePiPSecondary(){
+    pipMode = 2;
 }

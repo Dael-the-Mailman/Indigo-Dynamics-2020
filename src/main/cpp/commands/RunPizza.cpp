@@ -21,7 +21,7 @@ void RunPizza::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void RunPizza::Execute() {
-  if(count < 28){
+  if(count < 30){
     _pt->StartSpin();
     currColor = _pt->GetColor();
     if(currColor != prevColor){

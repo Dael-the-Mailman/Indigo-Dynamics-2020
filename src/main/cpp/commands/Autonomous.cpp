@@ -76,11 +76,16 @@ Autonomous::Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Time
     {drive});
 
   AddCommands(
-    frc2::InstantCommand([this] { drive->ResetOdometry(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg))); }),
+    frc2::InstantCommand([this] { 
+      drive->ResetAngle();
+      drive->ResetOdometry(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg))); }),
     frc2::ParallelRaceGroup(
         RunIntake(intake),
         std::move(forwardCommand)),
-    frc2::SequentialCommandGroup(TurnAngle(180, drive)),
+    frc2::InstantCommand([this]{
+      drive->ResetAngle();
+    }),
+    TurnAngle(180, drive),
     frc2::InstantCommand([this] { 
       drive->ResetOdometry(
         frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg))); }),

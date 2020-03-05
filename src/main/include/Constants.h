@@ -74,10 +74,10 @@ namespace DriveConstants
     constexpr int kPIDLoopIdx = 0;
     constexpr int smoothness = 8;
     constexpr double turnMultiplier = 0.6;
-    constexpr auto ks = 0.259_V;
-    constexpr auto kv = 2.46 * 1_V * 1_s / 1_m;
-    constexpr auto ka = 0.172 * 1_V * 1_s * 1_s / 1_m;
-    constexpr auto kTrackwidth = 0.608772591_m;
+    constexpr auto ks = 0.184_V; // Practice Bot 0.259_V
+    constexpr auto kv = 2.46 * 1_V * 1_s / 1_m; // Practice Bot 2.46 * 1_V * 1_s / 1_m
+    constexpr auto ka = 0.228 * 1_V * 1_s * 1_s / 1_m; // Practice Bot 0.172 * 1_V * 1_s * 1_s / 1_m
+    constexpr auto kTrackwidth = 0.6878032368767025_m;
     static const frc::DifferentialDriveKinematics kDriveKinematics{kTrackwidth};
 
     constexpr bool kGyroReversed = true;
@@ -88,7 +88,7 @@ namespace DriveConstants
         // Assumes the encoders are directly mounted on the wheel shafts
         (2 * kWheelRadius * wpi::math::pi) / (static_cast<double>(kEncoderCPR) * kGearRatio);
     constexpr double kTicksPer100msToMetersPerSecond = (10 * wpi::math::pi * kWheelRadius) / (static_cast<double>(kEncoderCPR) * kGearRatio);
-    constexpr double kPDriveVel = 0.00281;
+    constexpr double kPDriveVel = 0.00394;
     constexpr double kDDriveVel = 0.0;
 } // namespace DriveConstants
 

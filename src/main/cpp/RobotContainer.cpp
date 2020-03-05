@@ -18,6 +18,8 @@
 #include "commands/CloseShot.h"
 #include "commands/MediumShot.h"
 #include "commands/ColorPizza.h"
+#include "commands/LEDHandler.h"
+
 RobotContainer::RobotContainer() : 
 AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel),
 AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
@@ -35,6 +37,10 @@ ShootStuff(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
                                      [this] { return m_partner.GetRawAxis(2); }));
   m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel, 
                                      [this] { return m_joy.GetRawButton(5); }));
+  m_blinkin.SetDefaultCommand(LEDHandler(&m_blinkin, 
+                                     [this] { return m_intake.IsBroken();}, 
+                                     [this] { return m_intake.IsTopBroken();},
+                                     [this] { return m_flywheel.ReachedTarget(300);}));
 
   //Close shot 52%
   //Medium shot 54%

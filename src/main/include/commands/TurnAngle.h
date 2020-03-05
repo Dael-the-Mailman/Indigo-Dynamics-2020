@@ -34,7 +34,7 @@ class TurnAngle
  private:
   Drive* _drive;
   double targetAngle, output, error, currAngle, prevAngle, deriv, integral{};
-  const double kP{0.0043};
-  const double kI{0.0002};
-  const double kD{0.0};
+  const double kP{0.005};
+  const double kI{0.00023};
+  const double kD{0.002};
 };

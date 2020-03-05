@@ -9,9 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/Limelight.h"
-#include "subsystems/Drive.h"
-#include "subsystems/Flywheel.h"
+#include "subsystems/Blinkin.h"
 
 /**
  * An example command.
@@ -20,10 +18,11 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class VisionAlign
-    : public frc2::CommandHelper<frc2::CommandBase, VisionAlign> {
+class LEDHandler
+    : public frc2::CommandHelper<frc2::CommandBase, LEDHandler> {
  public:
-  VisionAlign(Limelight* limelight, Drive* drive, Flywheel* flywheel);
+  LEDHandler(Blinkin* blinkin, std::function<bool()> isBroken, 
+  std::function<bool()> isTopBroken, std::function<bool()> reachedTarget);
 
   void Initialize() override;
 
@@ -33,23 +32,9 @@ class VisionAlign
 
   bool IsFinished() override;
 
-  double Clamp(double input, double minval, double maxval);
-
  private:
-  Limelight* m_limelight;
-  Drive* m_drive;
-  Flywheel* m_flywheel;
-
-  const double STEER_K = 0.018;
-
-  const double DRIVE_K = 0.01;
-
-  const double Kd = 0.15;
-
-  const double Ki = 0.001;
-
-  const double DESIRED_TARGET_AREA = 13.0;
-  const double MAX_DRIVE = 0.65;
-  const double MAX_STEER = 1.0f;
-  double curerror{}, preverror{}, deriv{}, integral{};
+  Blinkin* _blinkin;
+  std::function<bool()> IsBroken;
+  std::function<bool()> IsTopBroken;
+  std::function<bool()> ReachedTarget;
 };

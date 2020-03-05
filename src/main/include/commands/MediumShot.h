@@ -41,7 +41,7 @@ class MediumShot
    const double fwdKp{1.0};
    const double fwdKi{};
    const double fwdKd{};
-   const double turnKp{-0.015};
+   const double turnKp{-0.018};
    const double turnKi{-0.001};
    const double turnKd{-0.15};
    const double targetArea{0.67};

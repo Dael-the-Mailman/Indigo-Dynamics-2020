@@ -21,6 +21,7 @@
 #include "subsystems/Winch.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/PizzaTime.h"
+#include "subsystems/Blinkin.h"
 #include "commands/Autonomous.h"
 #include "commands/AlignWithPort.h"
 #include "commands/OnTheFlyAuton.h"
@@ -49,6 +50,7 @@ private:
   Limelight m_limelight;
   PizzaTime m_pizzatime;
   frc::Timer m_timer;
+  Blinkin m_blinkin;
 
   frc::Joystick m_joy{0};
   frc::Joystick m_partner{2};

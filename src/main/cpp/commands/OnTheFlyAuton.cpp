@@ -42,5 +42,7 @@ OnTheFlyAuton::OnTheFlyAuton(Drive *DriveReference, Intake *IntakeReference, frc
 
   backwardconfig.SetReversed(true);
 
-  AddCommands();
+  AddCommands(
+    VisionAlignAction(false, drive, limelight)
+  );
 }

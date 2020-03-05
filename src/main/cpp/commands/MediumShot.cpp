@@ -20,6 +20,7 @@ MediumShot::MediumShot(Limelight *limelight, Drive *drive, Flywheel *flywheel, I
 // Called when the command is initially scheduled.
 void MediumShot::Initialize() {
   _limelight->SetPipeline(2);
+  _limelight->EnablePiPMain();
   _flywheel->SetTarget(0.56);
 }
 
@@ -48,6 +49,7 @@ void MediumShot::Execute() {
 
 // Called once the command ends or is interrupted.
 void MediumShot::End(bool interrupted) {
+  _limelight->EnablePiPSecondary();
 }
 
 // Returns true when the command should end.

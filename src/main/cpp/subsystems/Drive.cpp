@@ -9,6 +9,7 @@
 
 Drive::Drive()
 {
+    gyro.Calibrate();
     ResetEncoders();
     //Configure all motors to factory default
     _frontright->ConfigFactoryDefault();

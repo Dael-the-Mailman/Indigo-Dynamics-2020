@@ -18,7 +18,8 @@ VisionAlign::VisionAlign(Limelight* limelight,  Drive* drive, Flywheel* flywheel
 // Called when the command is initially scheduled.
 void VisionAlign::Initialize(){
   m_limelight->SetPipeline(0);
-  m_flywheel->SetTarget(0.78);
+  m_limelight->EnablePiPMain();
+  m_flywheel->SetTarget(0.70);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -44,7 +45,7 @@ void VisionAlign::Execute() {
 
 // Called once the command ends or is interrupted.
 void VisionAlign::End(bool interrupted) {
-  m_flywheel->Stop();
+  m_limelight->EnablePiPSecondary();
 }
 
 // Returns true when the command should end.

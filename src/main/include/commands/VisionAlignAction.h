@@ -36,8 +36,8 @@ class VisionAlignAction
   bool isCw;
   Drive* _drive;
   Limelight* _limelight;
-  const double turnKp{-0.012};
+  const double turnKp{-0.018};
   const double turnKi{-0.001};
-  const double turnKd{-0.12};
+  const double turnKd{-0.15};
   double currTurnError, prevTurnError, turnDerive, turnIntegral, turnOutput{};
 };

@@ -8,41 +8,29 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <frc/Spark.h>
 
-class Limelight : public frc2::SubsystemBase {
+class Blinkin : public frc2::SubsystemBase {
  public:
-  Limelight();
+  Blinkin();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic();
 
-  double Gettx();
+  void SolidBlue();
 
-  double Getty();
+  void SolidIndigo();
 
-  double Getta();
+  void SolidHotPink();
 
-  double Gettv();
+  void StrobeGold();
 
-  void LEDOff();
-
-  void LEDOn();
-
-  void SetPipeline(int pipeline);
-
-  bool WithinThreshold(double xThreshold, double areaThreshold, double targetArea);
-
-  void EnablePIP();
-
-  void EnablePiPMain();
-
-  void EnablePiPSecondary();
+  void Default();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  double tx{}, ty{}, ta{}, tv{}, pipe{};
-  int pipMode = 2;
+  frc::Spark *LEDDriver = new frc::Spark(0);
 };

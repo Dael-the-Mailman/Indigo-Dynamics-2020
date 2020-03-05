@@ -60,7 +60,7 @@ Shoot3CellsThenBackup::Shoot3CellsThenBackup(Drive *DriveReference, Intake *Inta
     {drive});
 
   AddCommands(
-    Shoot(5.0, 0.54, flywheel, intake, timer),
+    Shoot(6.0, 0.54, flywheel, intake, timer),
     frc2::InstantCommand([this] {
       drive->ResetAngle();
       drive->ResetOdometry(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)));
