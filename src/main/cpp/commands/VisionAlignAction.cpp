@@ -55,7 +55,7 @@ void VisionAlignAction::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool VisionAlignAction::IsFinished() {
-  if (fabs(currTurnError) < 0.5 && fabs(_drive->GetPercentOutput()) < 0.05){
+  if (fabs(currTurnError) < 1.0 && fabs(_drive->GetPercentOutput()) < 0.1){
     return true;
   } else {
     return false;

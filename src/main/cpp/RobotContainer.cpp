@@ -21,7 +21,7 @@
 #include "commands/LEDHandler.h"
 
 RobotContainer::RobotContainer() : 
-AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel),
+AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
 AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
 OnTheFly(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
 ShootStuff(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
@@ -74,7 +74,7 @@ void RobotContainer::ConfigureButtonBindings()
 frc2::Command *RobotContainer::GetAutonomousCommand()
 {
   // An example command will be run in autonomous
-  CommandSelector autonChoice = SelectAlignWithNearTrench;
+  CommandSelector autonChoice = SelectOnTheFly;
   switch (autonChoice)
   {
   case (SelectAlignWithNearTrench):

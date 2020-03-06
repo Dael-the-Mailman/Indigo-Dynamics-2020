@@ -43,6 +43,13 @@ OnTheFlyAuton::OnTheFlyAuton(Drive *DriveReference, Intake *IntakeReference, frc
   backwardconfig.SetReversed(true);
 
   AddCommands(
-    VisionAlignAction(false, drive, limelight)
+    frc2::InstantCommand([this]{
+      drive->ResetAngle();
+      frc::SmartDashboard::PutString("Auton Status", "Not Finished");
+    }),
+    TurnAngle(180, drive),
+    frc2::InstantCommand([this]{
+      frc::SmartDashboard::PutString("Auton Status", "Finished");
+    })
   );
 }

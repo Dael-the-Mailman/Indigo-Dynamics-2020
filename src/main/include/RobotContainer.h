@@ -15,6 +15,7 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <frc2/command/SelectCommand.h>
 #include <frc2/command/RunCommand.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/Flywheel.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Drive.h"

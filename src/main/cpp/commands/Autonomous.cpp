@@ -10,12 +10,14 @@
 #include "commands/RunIntake.h"
 #include "commands/TurnAngle.h"
 #include "commands/Shoot.h"
+#include "commands/VisionAlignAction.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-Autonomous::Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Timer* TimerReference, Flywheel* FlywheelReference) 
-: drive{DriveReference}, intake{IntakeReference}, timer{TimerReference}, flywheel{FlywheelReference} {
+Autonomous::Autonomous(Drive *DriveReference, Intake *IntakeReference, frc::Timer *TimerReference, Flywheel *FlywheelReference, Limelight *LimelightReference)
+    : drive{DriveReference}, intake{IntakeReference}, timer{TimerReference}, flywheel{FlywheelReference}, limelight{LimelightReference}
+{
   AddRequirements({drive});
   AddRequirements({intake});
   AddRequirements({flywheel});
@@ -52,7 +54,7 @@ Autonomous::Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Time
       // Pass through these two interior waypoints, making an 's' curve path
       {frc::Translation2d(2_m, 0_m)},
       // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d(4_m, 0_m, frc::Rotation2d(0_deg)),
+      frc::Pose2d(3.8_m, 0_m, frc::Rotation2d(0_deg)),
       config);
 
   frc2::RamseteCommand forwardCommand(
@@ -80,13 +82,18 @@ Autonomous::Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Time
       drive->ResetAngle();
       drive->ResetOdometry(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg))); }),
     frc2::ParallelRaceGroup(
-        RunIntake(intake),
-        std::move(forwardCommand)),
+      RunIntake(intake),
+      frc2::RunCommand([this]{
+        flywheel->SetTarget(0.58);
+        flywheel->Start();
+      }),
+      std::move(forwardCommand)),
     frc2::InstantCommand([this]{
       drive->ResetAngle();
     }),
-    TurnAngle(180, drive),
+    TurnAngle(182, drive),
     frc2::InstantCommand([this] { 
+      drive->ResetAngle();
       drive->ResetOdometry(
         frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg))); }),
     frc2::ParallelRaceGroup(
@@ -94,7 +101,7 @@ Autonomous::Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Time
         flywheel->SetTarget(0.58);
         flywheel->Start();
       }),
-      std::move(ToPort)),
-    Shoot(5.0, 0.56, flywheel, intake, timer),
+      VisionAlignAction(false, drive, limelight)),
+    Shoot(5.0, 0.58, flywheel, intake, timer),
     frc2::InstantCommand([this] { drive->TankDriveVolts(0_V, 0_V); }, {}));
 }

@@ -84,7 +84,7 @@ AlignWithPort::AlignWithPort(Drive *DriveReference, Intake *IntakeReference, frc
               std::move(BackwardCommand),
               TurnAngle(18, drive)),
           frc2::RunCommand([this] {
-            flywheel->SetTarget(0.54);
+            flywheel->SetTarget(0.56);
             flywheel->Start();
           })),
       Shoot(2.5, 0.54, flywheel, intake, timer),

@@ -30,18 +30,20 @@
 #include "subsystems/Drive.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Flywheel.h"
+#include "subsystems/Limelight.h"
 #include "Constants.h"
 
 class Autonomous
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  Autonomous> {
  public:
-  Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Timer* TimerReference, Flywheel* FlywheelReference);
+  Autonomous(Drive* DriveReference, Intake* IntakeReference, frc::Timer* TimerReference, Flywheel* FlywheelReference, Limelight* LimelightReference);
   
 
  private:
   Drive* drive;
   Intake* intake;
   Flywheel* flywheel;
+  Limelight* limelight;
   frc::Timer *timer;
 };
