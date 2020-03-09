@@ -19,6 +19,7 @@
 #include "commands/MediumShot.h"
 #include "commands/ColorPizza.h"
 #include "commands/LEDHandler.h"
+#include "commands/AngleAlign.h"
 
 RobotContainer::RobotContainer() : 
 AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
@@ -36,7 +37,7 @@ ShootStuff(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
                                      [this] { return m_partner.GetRawAxis(3); },
                                      [this] { return m_partner.GetRawAxis(2); }));
   m_flywheel.SetDefaultCommand(RunFlywheel(&m_flywheel, 
-                                     [this] { return m_joy.GetRawButton(5); }));
+                                     [this] { return m_partner.GetRawButton(5); }));
   m_blinkin.SetDefaultCommand(LEDHandler(&m_blinkin, 
                                      [this] { return m_intake.IsBroken();}, 
                                      [this] { return m_intake.IsTopBroken();},
@@ -59,6 +60,7 @@ void RobotContainer::ConfigureButtonBindings()
   frc2::JoystickButton m_closeShot{&m_joy, 4};
   frc2::JoystickButton m_mediumShot{&m_joy, 2};
   frc2::JoystickButton m_colorPizza{&m_partner, 4};
+  frc2::JoystickButton m_angleAlign{&m_partner, 6};
   m_pizzaButton.WhenPressed(RunPizza(&m_pizzatime));
   m_bButton.WhileHeld(BButton(&m_intake, &m_flywheel));
   m_yButton.WhileHeld(ReverseIntake(&m_intake));
@@ -69,6 +71,7 @@ void RobotContainer::ConfigureButtonBindings()
   m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive, &m_flywheel, &m_intake));
   m_mediumShot.WhileHeld(MediumShot(&m_limelight, &m_drive, &m_flywheel, &m_intake));
   m_colorPizza.WhenPressed(ColorPizza(&m_pizzatime));
+  m_angleAlign.WhenPressed(AngleAlign(&m_drive,&m_limelight, &m_flywheel));
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()
