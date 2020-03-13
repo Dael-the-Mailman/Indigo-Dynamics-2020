@@ -82,7 +82,7 @@ AlignWithPort::AlignWithPort(Drive *DriveReference, Intake *IntakeReference, frc
       frc2::ParallelRaceGroup(
           frc2::SequentialCommandGroup(
               std::move(BackwardCommand),
-              TurnAngle(18, drive)),
+              VisionAlignAction(false, drive, limelight)),
           frc2::RunCommand([this] {
             flywheel->SetTarget(0.56);
             flywheel->Start();

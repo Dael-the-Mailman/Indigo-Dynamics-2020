@@ -27,7 +27,15 @@ class Blinkin : public frc2::SubsystemBase {
 
   void StrobeGold();
 
+  void StrobeRed();
+
+  void SolidGreen();
+
+  void SolidRed();
+
   void Default();
+
+  void RainbowRainbow();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

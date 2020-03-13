@@ -44,7 +44,7 @@ void TurnAngle::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool TurnAngle::IsFinished() {
-  if(fabs(error) < 1.0 && fabs(_drive->GetPercentOutput()) < 0.05){
+  if(fabs(error) < 2.0 && fabs(_drive->GetPercentOutput()) < 0.05){
     return true;
   } else {
     return false;

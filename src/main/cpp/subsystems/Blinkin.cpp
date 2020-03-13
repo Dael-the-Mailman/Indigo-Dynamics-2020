@@ -34,3 +34,18 @@ void Blinkin::StrobeGold(){
     LEDDriver->Set(-0.07);
 }
 
+void Blinkin::StrobeRed(){
+    LEDDriver->Set(-0.11);
+}
+
+void Blinkin::SolidGreen(){
+    LEDDriver->Set(0.77);
+}
+
+void Blinkin::SolidRed(){
+    LEDDriver->Set(0.61);
+}
+
+void Blinkin::RainbowRainbow(){
+    LEDDriver->Set(0.99);
+}

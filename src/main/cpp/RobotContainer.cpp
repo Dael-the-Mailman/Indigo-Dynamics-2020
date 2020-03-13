@@ -25,7 +25,8 @@ RobotContainer::RobotContainer() :
 AlignWithNearTrenchAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
 AlignWithPortAuto(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
 OnTheFly(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
-ShootStuff(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
+ShootStuff(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight),
+ShootForward(&m_drive, &m_intake, &m_timer, &m_flywheel, &m_limelight)
 {
   // Initialize all of your commands and subsystems here
 
@@ -71,7 +72,7 @@ void RobotContainer::ConfigureButtonBindings()
   m_closeShot.WhileHeld(CloseShot(&m_limelight, &m_drive, &m_flywheel, &m_intake));
   m_mediumShot.WhileHeld(MediumShot(&m_limelight, &m_drive, &m_flywheel, &m_intake));
   m_colorPizza.WhenPressed(ColorPizza(&m_pizzatime));
-  m_angleAlign.WhenPressed(AngleAlign(&m_drive,&m_limelight, &m_flywheel));
+  m_angleAlign.WhileHeld(AngleAlign(&m_drive,&m_limelight, &m_flywheel));
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()
@@ -94,6 +95,10 @@ frc2::Command *RobotContainer::GetAutonomousCommand()
   
   case (SelectShootStuff):
     m_autonomousCommand = &ShootStuff;
+    break;
+
+  case(SelectShootForward):
+    m_autonomousCommand = &ShootForward;
     break;
 
   default:

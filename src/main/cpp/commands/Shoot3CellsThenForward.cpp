@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/Shoot3CellsThenBackup.h"
+#include "commands/Shoot3CellsThenForward.h"
 #include "commands/BButton.h"
 #include "commands/RunIntake.h"
 #include "commands/TurnAngle.h"
@@ -16,8 +16,8 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-Shoot3CellsThenBackup::Shoot3CellsThenBackup(Drive *DriveReference, Intake *IntakeReference, frc::Timer *TimerReference, Flywheel *FlywheelReference, Limelight *LimelightReference)
-  : drive{DriveReference}, intake{IntakeReference}, timer{TimerReference}, flywheel{FlywheelReference}, limelight{LimelightReference}
+Shoot3CellsThenForward::Shoot3CellsThenForward(Drive *DriveReference, Intake *IntakeReference, frc::Timer *TimerReference, Flywheel *FlywheelReference, Limelight *LimelightReference)
+    : drive{DriveReference}, intake{IntakeReference}, timer{TimerReference}, flywheel{FlywheelReference}, limelight{LimelightReference}
 {
   AddRequirements({drive});
   AddRequirements({intake});
@@ -43,28 +43,26 @@ Shoot3CellsThenBackup::Shoot3CellsThenBackup(Drive *DriveReference, Intake *Inta
   backwardconfig.SetReversed(true);
 
   frc::Trajectory backup = frc::TrajectoryGenerator::GenerateTrajectory(
-    frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-    {},
-    frc::Pose2d(-1_m, 0_m, frc::Rotation2d(0_deg)),
-    backwardconfig
-  );
+      frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+      {},
+      frc::Pose2d(1.5_m, 0_m, frc::Rotation2d(0_deg)),
+      config);
 
   frc2::RamseteCommand BackupCommand(
-    backup, [this]() { return drive->GetPose(); },
-    frc::RamseteController(AutoConstants::kRamseteB, AutoConstants::kRamseteZeta),
-    drive->GetFeedForward(), DriveConstants::kDriveKinematics,
-    [this] { return drive->GetWheelSpeeds(); },
-    frc2::PIDController(DriveConstants::kPDriveVel, 0.0, DriveConstants::kDDriveVel),
-    frc2::PIDController(DriveConstants::kPDriveVel, 0.0, DriveConstants::kDDriveVel),
-    [this](auto left, auto right) { drive->TankDriveVolts(left, right); },
-    {drive});
+      backup, [this]() { return drive->GetPose(); },
+      frc::RamseteController(AutoConstants::kRamseteB, AutoConstants::kRamseteZeta),
+      drive->GetFeedForward(), DriveConstants::kDriveKinematics,
+      [this] { return drive->GetWheelSpeeds(); },
+      frc2::PIDController(DriveConstants::kPDriveVel, 0.0, DriveConstants::kDDriveVel),
+      frc2::PIDController(DriveConstants::kPDriveVel, 0.0, DriveConstants::kDDriveVel),
+      [this](auto left, auto right) { drive->TankDriveVolts(left, right); },
+      {drive});
 
   AddCommands(
-    Shoot(7.0, 0.54, flywheel, intake, timer),
-    frc2::InstantCommand([this] {
-      drive->ResetAngle();
-      drive->ResetOdometry(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)));
-    }),
-    std::move(BackupCommand)
-  );
+      Shoot(7.0, 0.54, flywheel, intake, timer),
+      frc2::InstantCommand([this] {
+        drive->ResetAngle();
+        drive->ResetOdometry(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)));
+      }),
+      std::move(BackupCommand));
 }

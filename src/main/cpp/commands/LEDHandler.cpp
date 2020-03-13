@@ -21,17 +21,17 @@ void LEDHandler::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void LEDHandler::Execute() {
   if(IsBroken() && IsTopBroken() && !ReachedTarget()){
-    _blinkin->SolidIndigo();
+    _blinkin->SolidGreen();
   }
   else if (!IsBroken() && !IsTopBroken() && ReachedTarget())
   {
-    _blinkin->SolidHotPink();
+    _blinkin->StrobeRed();
 
   } else if(IsBroken() && IsTopBroken() && ReachedTarget()){
-    _blinkin->StrobeGold();
+    _blinkin->RainbowRainbow();
 
   } else {
-    _blinkin->Default();
+    _blinkin->SolidRed();
     
   }
 }
